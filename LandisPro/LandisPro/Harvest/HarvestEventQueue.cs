@@ -37,31 +37,31 @@ namespace LandisPro.Harvest
                 switch (id)
                 {
                     case HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME:
-                        //theEvent = new OnePassStandFillingRegime();
+                        theEvent = new OnePassStandFillingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME:
-                        //theEvent = new PeriodicStandFillingRegime();
+                        theEvent = new PeriodicStandFillingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME:
-                        //theEvent = new TwoPassStandFillingRegime();
+                        theEvent = new TwoPassStandFillingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME:
-                        //theEvent = new OnePassStandSpreadingRegime();
+                        theEvent = new OnePassStandSpreadingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME);
                         break;
                     case HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME:
-                        //theEvent = new TwoPassStandSpreadingRegime();
+                        theEvent = new TwoPassStandSpreadingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME);
                         break;
                     case HarvestEvent.EVENT_GROUP_SELECTION_REGIME:
-                        //theEvent = new GroupSelectionRegime();
+                        theEvent = new GroupSelectionRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_GROUP_SELECTION_REGIME);
                         break;
                     case HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME:
-                        //theEvent = new PeriodicTwoPassStandFillingRegime();
+                        theEvent = new PeriodicTwoPassStandFillingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME:
@@ -69,15 +69,15 @@ namespace LandisPro.Harvest
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_Volume_BA_THINING:
-                        //theEvent = new HarvestVolumeFittingRegime();
+                        theEvent = new HarvestVolumeFittingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_Volume_BA_THINING);
                         break;
                     case HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70:
-                        //theEvent = new GroupSelectionRegime70();
+                        theEvent = new GroupSelectionRegime70();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70);
                         break;
                     case HarvestEvent.EVENT_STAND_STOCKING_HARVEST:
-                        //theEvent = new StockingCuttingRegime();
+                        theEvent = new StockingCuttingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_STAND_STOCKING_HARVEST);
                         break;
 
@@ -87,7 +87,7 @@ namespace LandisPro.Harvest
 
                 seqId++;
                 //theEvent.SetSequentialId(seqId);
-                //theEvent.Read(inFile); //GroupSelectionRegime::read
+                //theEvent.Read(inFile); //HarvestRegime::read
                 //AddEvent(theEvent);
             }
 

@@ -118,6 +118,35 @@ namespace LandisPro.Harvest
                 readCustomization2(inFile);
             }
 
+            switch (rankAlgorithmId)
+            {
+                case 1:
+                    //itsRankAlgorithm = new RandomRank(itsManagementAreaId, itsRotationAge);
+                    break;
+                case 6:
+                    //itsRankAlgorithm = new OldestRank(itsManagementAreaId, itsRotationAge);
+                    break;
+                case 7:
+                    //itsRankAlgorithm = new EconomicImportanceRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
+                    break;
+                case 4:
+                    //itsRankAlgorithm = new RegulateDistributionRank(itsManagementAreaId, itsRotationAge);
+                    break;
+                /* 29-SEP-99 */
+                case 5:
+                    //itsRankAlgorithm = new RelativeOldestRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
+                    break;
+                case 2:
+                    //itsRankAlgorithm = new RankbyVolume(itsManagementAreaId, itsRotationAge);
+                    break;
+                case 3:
+                    //itsRankAlgorithm = new RankbyStocking(itsManagementAreaId, itsRotationAge); //Add By Qia on July 26 2012
+                    break;
+                /* -- END -- */
+                default:
+                    throw new Exception("Illegal rankAlgorithmId in HarvestRegime::read().");
+            }
+            //itsRankAlgorithm.read(inFile);
 
         }
 
@@ -136,7 +165,7 @@ namespace LandisPro.Harvest
             return 0;
         }
 
-        protected virtual int harvestStand(Stand stand)
+        public virtual int harvestStand(Stand stand)
         {
             return 0;
         }
