@@ -1,0 +1,22 @@
+# TPA BA BIO IV SEEDS RD #
+pinuechi Y Y Y Y Y Y 
+quervelu Y Y N Y N N 
+queralba Y Y N Y N N 
+
+#TPA BA Bio Car RD#
+Total Y Y Y Y Y 
+
+N #II. select species to attibutes to output for specific age cohorts#
+
+# TPA  BA   Bio   IV#
+pinuechi Y Y N Y 
+quervelu Y Y N Y 
+queralba Y Y N Y 
+
+#TPA BA Bio Car RD#
+Total Y Y N N N
+
+#select specific age cohorts to output#
+
+#III. output age -TPA/BA distribution for each species#
+N/A
