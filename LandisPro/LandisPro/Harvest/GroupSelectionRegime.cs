@@ -53,6 +53,62 @@ namespace LandisPro.Harvest
 
         }
 
-        
+        public override void readCustomization1(StreamReader infile)
+        {
+            double targetProportion;
+            int standProportionDenominator;
+            int rotationLength;
+
+            string instring;
+            string[] sarray;
+            if ((instring = infile.ReadLine()) == null)
+                throw new Exception("Error reading entry decade from harvest section.");
+            sarray = instring.Split('#');
+            itsEntryDecade = int.Parse(sarray[0]);
+            itsEntryDecade = itsEntryDecade / BoundedPocketStandHarvester.pCoresites.TimeStep_Harvest;
+            if (itsEntryDecade < BoundedPocketStandHarvester.pCoresites.TimeStep_Harvest)
+                itsEntryDecade = 1;
+
+            if ((instring = infile.ReadLine()) == null)
+                throw new Exception("Error reading reentry interval from harvest section.");
+            sarray = instring.Split('#');
+            itsReentryInterval = int.Parse(sarray[0]);
+            itsReentryInterval = itsReentryInterval / BoundedPocketStandHarvester.pCoresites.TimeStep_Harvest;
+            if (itsReentryInterval < BoundedPocketStandHarvester.pCoresites.TimeStep_Harvest)
+                itsReentryInterval = 1;
+
+            if ((instring = infile.ReadLine()) == null)
+                throw new Exception("Error reading management area target proportion from harvest section.");
+            sarray = instring.Split('#');
+            targetProportion = double.Parse(sarray[0]);
+
+            if ((instring = infile.ReadLine()) == null)
+                throw new Exception("Error reading stand proportion denominator from harvest section.");
+            sarray = instring.Split('#');
+            standProportionDenominator = int.Parse(sarray[0]);
+
+            if ((instring = infile.ReadLine()) == null)
+                throw new Exception("Error reading mean group size from harvest section.");
+            sarray = instring.Split('#');
+            itsMeanGroupSize = double.Parse(sarray[0]);
+
+            if ((instring = infile.ReadLine())==null)
+                throw new Exception("Error reading standard deviation from harvest section.");
+            sarray = instring.Split('#');
+            itsStandardDeviation = double.Parse(sarray[0]);
+
+            itsStandardDeviation = 1.0 / standProportionDenominator;
+            itsTargetCut = (int)(BoundedPocketStandHarvester.managementAreas[getManagementAreaId()].numberOfStands() *
+                            targetProportion);
+            rotationLength = (int) (itsReentryInterval * standProportionDenominator);
+            setDuration(rotationLength);
+        }
+
+        public override void readCustomization2(StreamReader infile)
+        {
+
+        }
+
+
     }
 }

@@ -150,12 +150,12 @@ namespace LandisPro.Harvest
 
         }
 
-        protected virtual void readCustomization1(StreamReader infile)
+        public virtual void readCustomization1(StreamReader infile)
         {
 
         }
 
-        protected virtual void readCustomization2(StreamReader infile)
+        public virtual void readCustomization2(StreamReader infile)
         {
 
         }

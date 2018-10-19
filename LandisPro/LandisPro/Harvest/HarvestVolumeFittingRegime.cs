@@ -61,5 +61,15 @@ namespace LandisPro.Harvest
             else
                 throw new Exception("Illegal call to HarvestVolumeFittingRegime::read.");
         }
+
+        public override void readCustomization1(StreamReader infile)
+        {
+
+        }
+
+        public override void readCustomization2(StreamReader infile)
+        {
+            setDuration(1);
+        }
     }
 }

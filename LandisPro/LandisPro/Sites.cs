@@ -68,6 +68,12 @@ namespace LandisPro
         private int VolumeFlag;
         private uint[] header = new uint[32];
 
+        public int[] flag_cut_GROUP_CUT = new int[200]; //add by Qia on Nov 10 2011
+        public int[] flag_plant_GROUP_CUT = new int[200];
+        public int[] num_TreePlant_GROUP_CUT = new int[200];
+        public int[] flag_cut_GROUP_CUT_copy = new int[200]; //add by Qia on June 02 2012
+        public int[] flag_plant_GROUP_CUT_copy = new int[200];
+        public int[] num_TreePlant_GROUP_CUT_copy = new int[200];
 
         public Site this[int i, int j]
         {
