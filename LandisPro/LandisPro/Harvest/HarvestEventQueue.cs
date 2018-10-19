@@ -65,7 +65,7 @@ namespace LandisPro.Harvest
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME:
-                        //theEvent = new RepeatingTwoPassStandFillingRegime();
+                        theEvent = new RepeatingTwoPassStandFillingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME);
                         break;
                     case HarvestEvent.EVENT_Volume_BA_THINING:
@@ -84,9 +84,8 @@ namespace LandisPro.Harvest
                     default:
                         throw new Exception("Error reading harvest event number.");
                 }
-
                 seqId++;
-                //theEvent.SetSequentialId(seqId);
+                theEvent.SetSequentialId(seqId);
                 //theEvent.Read(inFile); //HarvestRegime::read
                 //AddEvent(theEvent);
             }
