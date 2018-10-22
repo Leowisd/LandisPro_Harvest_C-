@@ -18,11 +18,11 @@ namespace LandisPro.Harvest
             DONE
         }
         protected Enum itsState;
-        private int itsEntryDecade;
-        private int itsReentryDecade;
-        private SiteRemovalMask itsReentryRemovalMask;
-        private int itsTargetCut;
-        private HarvestPath itsPath = new HarvestPath();
+        protected int itsEntryDecade;
+        protected int itsReentryDecade;
+        protected SiteRemovalMask itsReentryRemovalMask;
+        protected int itsTargetCut;
+        protected HarvestPath itsPath = new HarvestPath();
 
         public TwoPassStandBasedRegime()
         {

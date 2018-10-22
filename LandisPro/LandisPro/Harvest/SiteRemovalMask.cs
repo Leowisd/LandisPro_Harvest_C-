@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Text;
@@ -29,5 +30,19 @@ namespace LandisPro.Harvest
             mask = null;
         }
 
+        public void read(StreamReader infile)
+        {
+            for (int i = 0; i < numSpec; i++)
+            {
+                string instring;
+                string[] sarray;
+
+                instring = infile.ReadLine();
+                sarray = instring.Split(' ');
+                itsPlantingCode[i + 1] = int.Parse(sarray[0]);
+                mask[i].read(infile);
+
+            }
+        }
     }
 }

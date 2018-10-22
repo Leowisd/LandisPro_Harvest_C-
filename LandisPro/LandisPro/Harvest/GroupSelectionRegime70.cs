@@ -137,7 +137,7 @@ namespace LandisPro.Harvest
             }
             for (int ii = 0; ii < total_reentry_event_instances; ii++)
             {
-
+                GroupSelectionRegime70_reentry_event_instances[ii] = new GroupSelectionRegime70_reentry_event();
                 GroupSelectionRegime70_reentry_event_instances[ii].GroupSelectionRegime70_load_reentry_parameters(infile);
             }
 

@@ -36,47 +36,51 @@ namespace LandisPro.Harvest
 
                 switch (id)
                 {
-                    case HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME:
-                        theEvent = new OnePassStandFillingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME:
-                        theEvent = new PeriodicStandFillingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME:
-                        theEvent = new TwoPassStandFillingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME:
-                        theEvent = new OnePassStandSpreadingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME:
-                        theEvent = new TwoPassStandSpreadingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_GROUP_SELECTION_REGIME:
-                        theEvent = new GroupSelectionRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_GROUP_SELECTION_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME:
-                        theEvent = new PeriodicTwoPassStandFillingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME:
-                        theEvent = new RepeatingTwoPassStandFillingRegime();
-                        harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME);
-                        break;
-                    case HarvestEvent.EVENT_Volume_BA_THINING:
+                    /*
+                     * Accroding to the input data file HarvestparameterDebug.dat from Jacob, which used all possible functions, these
+                     * methods may not be used in current version any longer.
+                     */
+                    //case HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME: //may not used
+                    //    theEvent = new OnePassStandFillingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_FILLING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME: // may not used
+                    //    theEvent = new PeriodicStandFillingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_STAND_FILLING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME:  // may not used
+                    //    theEvent = new TwoPassStandFillingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_FILLING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME:  // may not used
+                    //    theEvent = new OnePassStandSpreadingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_ONE_PASS_STAND_SPREADING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME:  // may not used
+                    //    theEvent = new TwoPassStandSpreadingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_TWO_PASS_STAND_SPREADING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_GROUP_SELECTION_REGIME:  // may not used
+                    //    theEvent = new GroupSelectionRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_GROUP_SELECTION_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME:  // may not used
+                    //    theEvent = new PeriodicTwoPassStandFillingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_PERIODIC_TWO_PASS_STAND_FILLING_REGIME);
+                    //    break;
+                    //case HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME:  // may not used
+                    //    theEvent = new RepeatingTwoPassStandFillingRegime();
+                    //    harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_REPEATING_TWO_PASS_STAND_FILLING_REGIME);
+                    //    break;
+                    case HarvestEvent.EVENT_Volume_BA_THINING: //1
                         theEvent = new HarvestVolumeFittingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_Volume_BA_THINING);
                         break;
-                    case HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70:
+                    case HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70: //2
                         theEvent = new GroupSelectionRegime70();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70);
                         break;
-                    case HarvestEvent.EVENT_STAND_STOCKING_HARVEST:
+                    case HarvestEvent.EVENT_STAND_STOCKING_HARVEST: //3
                         theEvent = new StockingCuttingRegime();
                         harvestEventMode = harvestEventMode | (int)(float)Math.Pow(2.0f, (float)HarvestEvent.EVENT_STAND_STOCKING_HARVEST);
                         break;

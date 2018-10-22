@@ -120,22 +120,26 @@ namespace LandisPro.Harvest
 
             switch (rankAlgorithmId)
             {
+                /*
+                 * Accroding to the input data file HarvestparameterDebug.dat from Jacob, which used all possible functions, these
+                 * methods may not be used in current version any longer.
+                 */
+                //case 6:  // may not used
+                //    //itsRankAlgorithm = new OldestRank(itsManagementAreaId, itsRotationAge);
+                //    break;
+                //case 7: // may not used
+                //    //itsRankAlgorithm = new EconomicImportanceRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
+                //    break;
+                //case 4: // may not used
+                //    //itsRankAlgorithm = new RegulateDistributionRank(itsManagementAreaId, itsRotationAge);
+                //    break;
+                ///* 29-SEP-99 */
+                //case 5: // may not used
+                //    //itsRankAlgorithm = new RelativeOldestRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
+                //    break;
                 case 1:
                     //itsRankAlgorithm = new RandomRank(itsManagementAreaId, itsRotationAge);
-                    break;
-                case 6:
-                    //itsRankAlgorithm = new OldestRank(itsManagementAreaId, itsRotationAge);
-                    break;
-                case 7:
-                    //itsRankAlgorithm = new EconomicImportanceRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
-                    break;
-                case 4:
-                    //itsRankAlgorithm = new RegulateDistributionRank(itsManagementAreaId, itsRotationAge);
-                    break;
-                /* 29-SEP-99 */
-                case 5:
-                    //itsRankAlgorithm = new RelativeOldestRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
-                    break;
+                    break;             
                 case 2:
                     //itsRankAlgorithm = new RankbyVolume(itsManagementAreaId, itsRotationAge);
                     break;
