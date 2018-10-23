@@ -50,6 +50,25 @@ namespace LandisPro
             }
         }
 
+        public Specie this[int i]
+        {
+            get
+            {
+                if (i > numSpec || i <= 0)
+                    throw new Exception("Specie Index Error out Bound");
+
+                return species[i - 1];
+            }
+
+            private set
+            {
+                if (i > numSpec || i < 0)
+                    throw new Exception("in species.cs: assignment error\n");
+
+                species[i - 1].copy(value);
+            }
+        }
+
         public Specie first()
         {
             currentSpec = 0;

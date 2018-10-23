@@ -25,6 +25,11 @@ namespace LandisPro.Harvest
             }
         }
 
+        public int number()
+        {
+            return numStands;
+        }
+
         public void construct()
         {
             int i;

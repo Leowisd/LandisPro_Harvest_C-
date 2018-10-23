@@ -49,6 +49,35 @@ namespace LandisPro
 
         protected int[] agevector;
 
+        public agelist() { }
+
+        public agelist(agelist in_agelist)
+        {
+            this.copy(in_agelist);
+        }
+
+        public void copy(agelist in_agelist)
+        {
+            if (in_agelist == null)
+                return;
+
+            this.copy2(in_agelist.agevector);
+        }
+
+
+        protected void copy2(int[] in_agevector)
+        {
+            if (in_agevector == null)
+                return;
+
+            int count = in_agevector[0];
+
+            agevector = new int[count + 1];
+
+            for (int i = 0; i <= count; i++)
+                agevector[i] = in_agevector[i];
+        }
+
         public void clear()
         {
             if (agevector == null)

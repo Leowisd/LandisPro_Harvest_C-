@@ -53,5 +53,40 @@ namespace LandisPro.Harvest
             theLength = theNewLength;
         }
 
+        public void descendingSort_doubleArray(IntArray theStandArray, double[] theSortKeyArray, int theLength)
+        { //Add by Qia
+            int temp;
+            double temp_double;
+            for (int i = 1; i <= theLength - 1; i++)
+            {
+                for (int j = i + 1; j <= theLength; j++)
+                {
+                    if (theSortKeyArray[j] > theSortKeyArray[i])
+                    {
+                        temp = theStandArray[j];
+                        theStandArray[j] = theStandArray[i];
+                        theStandArray[i] = temp;
+
+                        temp_double = theSortKeyArray[j];
+                        theSortKeyArray[j] = theSortKeyArray[i];
+                        theSortKeyArray[i] = temp_double;
+                    }
+                }
+            }
+        }
+
+
+        public void assign(IntArray theStandArray, int theLength, List<int> theRankedList)
+        {
+            for (int i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
+                BoundedPocketStandHarvester.pstands[i].setRank(0);
+            int rank = 1;
+            for (int i = 1; i <= theLength; i++)
+            {
+                BoundedPocketStandHarvester.pstands[theStandArray[i]].setRank(rank++);
+                theRankedList.Add(theStandArray[i]);
+            }
+        }
+
     }
 }

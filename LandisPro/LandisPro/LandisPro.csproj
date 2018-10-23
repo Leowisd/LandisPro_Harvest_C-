@@ -92,6 +92,7 @@
     <Compile Include="Harvest\HarvestPath.cs" />
     <Compile Include="Harvest\HarvestRegime.cs" />
     <Compile Include="Harvest\HarvestReport.cs" />
+    <Compile Include="Harvest\HARVESTSites.cs" />
     <Compile Include="Harvest\HarvestVolumeFittingRegime.cs" />
     <Compile Include="Harvest\IntArray.cs" />
     <Compile Include="Harvest\Ldpoint.cs" />
@@ -102,9 +103,13 @@
     <Compile Include="Harvest\OnePassStandSpreadingRegime.cs" />
     <Compile Include="Harvest\PeriodicStandFillingRegime.cs" />
     <Compile Include="Harvest\PeriodicTwoPassStandFillingRegime.cs" />
+    <Compile Include="Harvest\RandomRank.cs" />
+    <Compile Include="Harvest\RankbyStocking.cs" />
+    <Compile Include="Harvest\RankbyVolume.cs" />
     <Compile Include="Harvest\RepeatingTwoPassStandFillingRegime.cs" />
     <Compile Include="Harvest\SiteRemovalMask.cs" />
     <Compile Include="Harvest\Stand.cs" />
+    <Compile Include="Harvest\StandIterator.cs" />
     <Compile Include="Harvest\StandRankingAlgorithm.cs" />
     <Compile Include="Harvest\Stands.cs" />
     <Compile Include="Harvest\StockingCuttingRegime.cs" />

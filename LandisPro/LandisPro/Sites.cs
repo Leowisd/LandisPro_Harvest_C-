@@ -75,6 +75,10 @@ namespace LandisPro
         public int[] flag_plant_GROUP_CUT_copy = new int[200];
         public int[] num_TreePlant_GROUP_CUT_copy = new int[200];
 
+        public double stocking_x_value;
+        public double stocking_y_value;
+        public double stocking_z_value;
+
         public Site this[int i, int j]
         {
             get

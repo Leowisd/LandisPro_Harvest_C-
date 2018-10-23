@@ -90,8 +90,8 @@ namespace LandisPro.Harvest
                 }
                 seqId++;
                 theEvent.SetSequentialId(seqId);
-                //theEvent.Read(inFile); //HarvestRegime::read
-                //AddEvent(theEvent);
+                theEvent.Read(inFile); //HarvestRegime::read
+                AddEvent(theEvent);
             }
 
             int j;
@@ -123,12 +123,12 @@ namespace LandisPro.Harvest
                 p = item;
                 legendLabe[p.GetSequentialId()] = p.GetLabel();
                 legendLabeNo++;
-                if (p.Conditions() == 1) //GroupSelectionRegime::conditions()
+                if (p.Conditions() == 1) //HarvestRegime::conditions()
                 {
                     BoundedPocketStandHarvester.currentHarvestEventId++;
-                    if (p.IsA() == HarvestEvent.EVENT_Volume_BA_THINING) //GroupSelectionRegime::isA()
+                    if (p.IsA() == HarvestEvent.EVENT_Volume_BA_THINING) //HarvestRegime::isA()
                     {
-                        p.Harvest(); //GroupSelectionRegime::harvest()
+                        p.Harvest(); //HarvestRegime::harvest()
                     }
                     else if (p.IsA() == HarvestEvent.EVENT_GROUP_SELECTION_REGIME_70)
                     {

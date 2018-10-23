@@ -30,6 +30,6 @@ namespace LandisPro.Harvest
         public static StreamWriter harvestOutputFile2;
         public static ushort currentHarvestEventId;
 
-        public HARVESTSites pHarvestsites;
+        public static HARVESTSites pHarvestsites;
     }
 }

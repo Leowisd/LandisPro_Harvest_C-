@@ -105,7 +105,7 @@ namespace LandisPro.Harvest
 
             if (BoundedPocketStandHarvester.standMap.inMap((uint)r, (uint)c) == false)
             {
-                return 0;
+                return false;
             }
 
             sid = BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c); //change by Qia on Nov 4 2008
@@ -154,14 +154,14 @@ namespace LandisPro.Harvest
                         if (BoundedPocketStandHarvester.pCoresites.locateLanduPt(pt.y, pt.x).active()) //original landis4.0: site->landUnit->active()
                         {
                             BoundedPocketStandHarvester.pHarvestsites.BefStChg(pt.y, pt.x); //Add By Qia on Nov 10 2008
-                            sum += BoundedPocketStandHarvester.pHarvestsites(pt.y, pt.x).getMaxAge(pt.y, pt.x);
+                            sum += BoundedPocketStandHarvester.pHarvestsites[pt.y, pt.x].getMaxAge(pt.y, pt.x);
                             BoundedPocketStandHarvester.pHarvestsites.AftStChg(pt.y, pt.x); //Add By Qia on Nov 10 2008                     
-                            if (BoundedPocketStandHarvester.standMap.getvalue32out((uint)pt.y, (uint)pt.x) > 0 && BoundedPocketStandHarvester.pHarvestsites(pt.y, pt.x).canBeHarvested(pt.y, pt.x)) //change by Qia on Nov 4 2008
+                            if (BoundedPocketStandHarvester.standMap.getvalue32out((uint)pt.y, (uint)pt.x) > 0 && BoundedPocketStandHarvester.pHarvestsites[pt.y, pt.x].canBeHarvested(pt.y, pt.x)) //change by Qia on Nov 4 2008
                             {
 
                                 itsHarvestableSites++;
                             }                        
-                            if (BoundedPocketStandHarvester.pHarvestsites(pt.y, pt.x).wasRecentlyHarvested())
+                            if (BoundedPocketStandHarvester.pHarvestsites[pt.y, pt.x].wasRecentlyHarvested())
                             {
                                 rcount++;
                             }
@@ -180,5 +180,18 @@ namespace LandisPro.Harvest
                 itsUpdateFlag = 0;
             }
         }
+
+        public int getAge()
+        {
+            update();
+            return itsMeanAge;
+        }
+
+        public void setRank(int rank)
+        {
+            itsRank = rank;
+        }
+
+
     }
 }

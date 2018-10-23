@@ -52,6 +52,9 @@ namespace LandisPro
             DateTime now = DateTime.Now;
             gDLLMode = parameters.Read(infile);
             time_step.gettimestep(parameters.timestep);
+            sites.stocking_x_value = parameters.stocking_x_value;
+            sites.stocking_y_value = parameters.stocking_y_value;
+            sites.stocking_z_value = parameters.stocking_z_value;
             sites.TimeStep = parameters.timestep;
             sites.TimeStep_Harvest = parameters.timestep_Harvest;
             sites.CellSize = parameters.cellSize;

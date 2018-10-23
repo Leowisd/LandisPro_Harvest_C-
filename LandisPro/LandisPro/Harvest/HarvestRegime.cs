@@ -138,20 +138,19 @@ namespace LandisPro.Harvest
                 //    //itsRankAlgorithm = new RelativeOldestRank(itsManagementAreaId, itsRotationAge, itsRemovalMask);
                 //    break;
                 case 1:
-                    //itsRankAlgorithm = new RandomRank(itsManagementAreaId, itsRotationAge);
+                    itsRankAlgorithm = new RandomRank(itsManagementAreaId, itsRotationAge);
                     break;             
                 case 2:
-                    //itsRankAlgorithm = new RankbyVolume(itsManagementAreaId, itsRotationAge);
+                    itsRankAlgorithm = new RankbyVolume(itsManagementAreaId, itsRotationAge);
                     break;
                 case 3:
-                    //itsRankAlgorithm = new RankbyStocking(itsManagementAreaId, itsRotationAge); //Add By Qia on July 26 2012
+                    itsRankAlgorithm = new RankbyStocking(itsManagementAreaId, itsRotationAge); //Add By Qia on July 26 2012
                     break;
                 /* -- END -- */
                 default:
                     throw new Exception("Illegal rankAlgorithmId in HarvestRegime::read().");
             }
-            //itsRankAlgorithm.read(inFile);
-
+            itsRankAlgorithm.read(inFile);
         }
 
         public virtual void readCustomization1(StreamReader infile)
