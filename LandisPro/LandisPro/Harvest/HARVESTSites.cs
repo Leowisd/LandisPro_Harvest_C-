@@ -156,6 +156,24 @@ namespace LandisPro.Harvest
             }
 
         }
+        public int AddMoreValueHarvestBA_spec(int i, int j, int spec, double value)
+        {
+            int x;
+            x = (i - 1) * m_iCols;
+            x = x + j - 1;
+            BA_harvest_output_spec[spec][x] += value;
+            return 0;
+        }
+
+        public int AddMoreValueHarvestBA(int i, int j, double value)
+        {
+            int x;
+            x = (i - 1) * m_iCols;
+            x = x + j - 1;
+            BA_harvest_output[x] += value;
+            return 0;
+        }
+
 
         //there is a return at the begining, whihc means the function doesn't take any process.
         public void BefStChg(int i, int j)

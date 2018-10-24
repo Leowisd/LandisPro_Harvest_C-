@@ -55,6 +55,123 @@ namespace LandisPro.Harvest
             itsTotalNumberOfStands = 0;
         }
 
+        public void send_parameters_to_current(int flag, int index)
+        {
+            if (flag == 1)
+            { //initial or repeat
+                targetProportion = targetProportion_copy;
+                standProportionDenominator = standProportionDenominator_copy;
+                rotationLength = rotationLength_copy;
+                itsTargetCut = itsTargetCut_copy;
+                SitesCut = SitesCut_copy;
+                itsStandProportion = itsStandProportion_copy;
+                itsMeanGroupSize = itsMeanGroupSize_copy;
+                itsStandardDeviation = itsStandardDeviation_copy;
+                itsTotalNumberOfStands = itsTotalNumberOfStands_copy;
+                for (int i = 0; i < 200; i++)
+                {
+                    BoundedPocketStandHarvester.pCoresites.flag_cut_GROUP_CUT[i] = BoundedPocketStandHarvester.pCoresites.flag_cut_GROUP_CUT_copy[i];
+                    BoundedPocketStandHarvester.pCoresites.flag_plant_GROUP_CUT[i] = BoundedPocketStandHarvester.pCoresites.flag_plant_GROUP_CUT_copy[i];
+                    BoundedPocketStandHarvester.pCoresites.num_TreePlant_GROUP_CUT[i] = BoundedPocketStandHarvester.pCoresites.num_TreePlant_GROUP_CUT_copy[i];
+                }
+                itsStandProportion = (float)1.0 / standProportionDenominator;
+                itsTargetCut = (int)((float)(BoundedPocketStandHarvester.managementAreas[getManagementAreaId()].numberofActiveSites()) * targetProportion);
+                rotationLength = (int)(itsRepeatInterval * standProportionDenominator);
+                SitesCut = 0;
+                setDuration(rotationLength);
+            }
+            else if (flag == 0 && index < total_reentry_event_instances)
+            { //re-entry
+                targetProportion = GroupSelectionRegime70_reentry_event_instances[index].targetProportion;
+                standProportionDenominator = GroupSelectionRegime70_reentry_event_instances[index].standProportionDenominator;
+                rotationLength = GroupSelectionRegime70_reentry_event_instances[index].rotationLength;
+                itsTargetCut = GroupSelectionRegime70_reentry_event_instances[index].itsTargetCut;
+                SitesCut = GroupSelectionRegime70_reentry_event_instances[index].SitesCut;
+                itsStandProportion = GroupSelectionRegime70_reentry_event_instances[index].itsStandProportion;
+                itsMeanGroupSize = GroupSelectionRegime70_reentry_event_instances[index].itsMeanGroupSize;
+                itsStandardDeviation = GroupSelectionRegime70_reentry_event_instances[index].itsStandardDeviation;
+                itsTotalNumberOfStands = GroupSelectionRegime70_reentry_event_instances[index].itsTotalNumberOfStands;
+                for (int i = 0; i < 200; i++)
+                {
+                    BoundedPocketStandHarvester.pCoresites.flag_cut_GROUP_CUT[i] = GroupSelectionRegime70_reentry_event_instances[index].flag_cut_GROUP_CUT[i];
+                    BoundedPocketStandHarvester.pCoresites.flag_plant_GROUP_CUT[i] = GroupSelectionRegime70_reentry_event_instances[index].flag_plant_GROUP_CUT[i];
+                    BoundedPocketStandHarvester.pCoresites.num_TreePlant_GROUP_CUT[i] = GroupSelectionRegime70_reentry_event_instances[index].num_TreePlant_GROUP_CUT[i];
+                }
+                itsStandProportion = (float)1.0 / standProportionDenominator;
+                itsTargetCut = (int)((float)(BoundedPocketStandHarvester.managementAreas[getManagementAreaId()].numberofActiveSites()) * targetProportion);
+                rotationLength = (int)(itsRepeatInterval * standProportionDenominator);
+                SitesCut = 0;
+                setDuration(rotationLength);
+            }
+        }
+
+
+        public override int Conditions()
+        {
+            int passed;
+            switch (itsState)
+            {
+                case Enum.PENDING:
+                    if (BoundedPocketStandHarvester.currentDecade == itsEntryDecade)
+                    {
+                        passed = 1;
+                        itsState = Enum.TOHARVEST;
+                        send_parameters_to_current(1, -1);
+                    }
+                    else if (BoundedPocketStandHarvester.currentDecade > itsEntryDecade && (BoundedPocketStandHarvester.currentDecade - itsEntryDecade) % itsRepeatInterval == 0)
+                    {
+                        passed = 1;
+                        itsState = Enum.TOHARVEST;
+                        send_parameters_to_current(1, -1);
+                    }
+                    else
+                    {
+                        passed = 0;
+                    }
+                    if (BoundedPocketStandHarvester.currentDecade > itsEntryDecade)
+                    {
+                        for (int i = 0; i < total_reentry_event_instances; i++)
+                        {
+                            int inteval_reentry = GroupSelectionRegime70_reentry_event_instances[i].itsReentryInteval;
+                            if ((BoundedPocketStandHarvester.currentDecade - itsEntryDecade - inteval_reentry) % (itsRepeatInterval) == 0 || (BoundedPocketStandHarvester.currentDecade - itsEntryDecade) - inteval_reentry == 0)
+                            {
+                                passed = 1;
+                                itsState = Enum.TOREENTRY;
+                                send_parameters_to_current(0, i);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception("Illegal call to GroupSelectionRegime70::conditions.");
+            }
+            return passed;
+        }
+
+        public override int IsA()
+        {
+            return EVENT_GROUP_SELECTION_REGIME_70;
+        }
+
+        public override void Harvest()
+        {
+            switch (itsState)
+            {
+                case Enum.TOHARVEST:
+                    base.Harvest();
+                    itsState = Enum.PENDING;
+                    break;
+                case Enum.TOREENTRY:
+                    reharvest();
+                    itsStands.Clear();
+                    itsState = Enum.PENDING;
+                    break;
+                default:
+                    throw new Exception("Illegal call to GroupSelection::harvest.");
+            }
+        }
+
+
         public override void Read(StreamReader infile)
         {
 
@@ -167,7 +284,24 @@ namespace LandisPro.Harvest
             }
         }
 
+        public void reharvest()
+        {
+            Stand stand;
+            MultiplePocketStandHarvester theStandHarvester;
+            int standCut;
+            SiteHarvester theSiteHarvester = new SiteHarvester(GetUserInputId(), getRemovalMask(), getReport(), getDuration());
+            getReport().reset();
 
+            for (int i = 0; i < itsStands.Count; i++)
+            {
+                //        stand = stands(it.current());  Modified by Vera
+                stand = BoundedPocketStandHarvester.pstands[itsStands.IndexOf(i)];
+                theStandHarvester = new MultiplePocketStandHarvester(stand, itsStandProportion, itsMeanGroupSize, itsStandardDeviation, theSiteHarvester);
+                standCut = theStandHarvester.Harvest();
+                theStandHarvester = null;
+            }
+            writeReport(BoundedPocketStandHarvester.harvestOutputFile2);
+        }
 
     }
 

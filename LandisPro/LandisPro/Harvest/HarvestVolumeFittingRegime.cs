@@ -56,6 +56,8 @@ namespace LandisPro.Harvest
             itsTargetCut = 0;
         }
 
+
+
         public override void Read(StreamReader infile)
         {
             if (itsState == Enum.START)

@@ -26,7 +26,7 @@ namespace LandisPro.Harvest
 
         }
 
-        public virtual void rankStands(List<int> theRankedList)
+        public virtual void rankStands(ref List<int> theRankedList)
         {
 
         }

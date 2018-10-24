@@ -30,6 +30,11 @@ namespace LandisPro.Harvest
             mask = null;
         }
 
+        public CohortRemovalMask this[int i]
+        {
+            get { return mask[i - 1]; }
+        }
+
         public void read(StreamReader infile)
         {
             for (int i = 0; i < numSpec; i++)
@@ -43,6 +48,11 @@ namespace LandisPro.Harvest
                 mask[i].read(infile);
 
             }
+        }
+
+        public int plantingCode(int species)
+        {
+            return itsPlantingCode[species];
         }
     }
 }

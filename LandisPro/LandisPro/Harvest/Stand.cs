@@ -43,6 +43,27 @@ namespace LandisPro.Harvest
             return itsManagementAreaId;
         }
 
+        public bool neighborsWereRecentlyHarvested()
+        {
+            int id;
+            foreach (int it in itsNeighborList)
+            {
+                id = it;
+                if (BoundedPocketStandHarvester.pstands[id].wasRecentlyHarvested() == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        public int wasRecentlyHarvested()
+        {
+            update();
+            return itsRecentHarvestFlag;
+        }
+
         public int isNeighbor(int r, int c)
         {
             int nid;
@@ -119,6 +140,19 @@ namespace LandisPro.Harvest
 
         }
 
+        public Ldpoint getRandomPoint()
+        {
+            Ldpoint pt = new Ldpoint();
+            do
+            {
+                pt.x = system1.irand(itsMinPoint.x, itsMaxPoint.x);
+                pt.y = system1.irand(itsMinPoint.y, itsMaxPoint.y);
+
+            } while (!inStand(pt.y, pt.x));
+            return pt;
+        }
+
+
 
         public void update()
         {
@@ -192,6 +226,9 @@ namespace LandisPro.Harvest
             itsRank = rank;
         }
 
-
+        public void setUpdateFlag()
+        {
+            itsUpdateFlag = 1;
+        }
     }
 }

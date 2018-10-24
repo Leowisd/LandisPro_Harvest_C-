@@ -82,8 +82,8 @@ namespace LandisPro
             if ((gDLLMode & Defines.G_HARVEST) != 0)
             {
                 Console.WriteLine("Harvest Dll loaded in...");
-                //GlobalFunctions.HarvestPass(sites, speciesAttrs);
-                //sites.Harvest70outputdim();
+                Harvest.GlobalFunctions.HarvestPass(sites, speciesAttrs);
+                sites.Harvest70outputdim();
             }
             Console.WriteLine("Finish getting input");
 
@@ -214,12 +214,12 @@ namespace LandisPro
 
             if ((gDLLMode & Defines.G_HARVEST) != 0 && i % sites.TimeStep_Harvest == 0)
             {
-                //GlobalFunctions.HarvestPassCurrentDecade(i);  //Global Function
+                Harvest.GlobalFunctions.HarvestPassCurrentDecade(i);  //Global Function
                 for (int r = 1; r <= snr; r++)
                 {
                     for (int c = 1; c <= snc; c++)
                     {
-                        //setUpdateFlags(r, c); //Global Function
+                        Harvest.GlobalFunctions.setUpdateFlags(r, c); //Global Function
                     }
                 }
             }
@@ -406,16 +406,12 @@ namespace LandisPro
             {
                 fpforTimeBU.WriteLine("\nProcessing succession at Year: {0}:", itr);
 
-
                 if ((gDLLMode & Defines.G_HARVEST) != 0 && itr % sites.TimeStep_Harvest == 0)
                 {
                     Console.WriteLine("Processing harvest events.\n");
                     ltime = DateTime.Now;
-
-                    //HarvestprocessEvents(itr / sites.TimeStep);  //Global Function
-
+                    Harvest.GlobalFunctions.HarvestprocessEvents(itr / sites.TimeStep);  //Global Function
                     //putHarvestOutput(itr / sites.TimeStep_Harvest, wAdfGeoTransform); //output img files, is it necessary?
-
                     ltimeTemp = DateTime.Now;
                     ltimeDiff = ltimeTemp - ltime;
                     fpforTimeBU.WriteLine("Processing harvest: " + ltimeDiff +" seconds");
@@ -424,23 +420,16 @@ namespace LandisPro
                 if (itr % sites.TimeStep == 0)
                 {
                     ltime = DateTime.Now;
-
                     Console.WriteLine("Start succession ... at {0}", ltime);
-
                     system1.fseed(parameters.randSeed + itr / sites.TimeStep * 6);
-
                     landUnits.ReprodUpdate(itr / sites.TimeStep);
                     //Console.WriteLine("random number: {0}", system1.frand());
                     succession_Landis70(ppdp, itr);
                     //Console.WriteLine("random number: {0}", system1.frand());
                     ltimeTemp = DateTime.Now;
-
                     ltimeDiff = ltimeTemp - ltime;
-
                     Console.WriteLine("Finish succession at {0} sit took {1} seconds", DateTime.Now, ltimeDiff);
-
                     fpforTimeBU.WriteLine("Processing succession: {0} seconds", ltimeDiff);
-
                     fpforTimeBU.Flush();
                 }
             }

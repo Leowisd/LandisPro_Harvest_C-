@@ -19,7 +19,7 @@ namespace LandisPro.Harvest
 
         }
 
-        public override void rankStands(List<int> theRankedList)
+        public override void rankStands(ref List<int> theRankedList)
         {
             IntArray theStandArray = new IntArray(itsManagementArea.numberOfStands());
             IntArray theAgeArray = new IntArray(itsManagementArea.numberOfStands());

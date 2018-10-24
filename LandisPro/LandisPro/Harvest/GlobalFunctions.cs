@@ -112,9 +112,9 @@ namespace LandisPro.Harvest
 
             HEventsmode = BoundedPocketStandHarvester.harvestEvents.Read(haFile);
 
-            //BoundedPocketStandHarvester.managementAreaMap.freeMAPdata();
+            BoundedPocketStandHarvester.managementAreaMap.freeMAPdata();
 
-            //BoundedPocketStandHarvester.pHarvestsites = new HARVESTSites(BoundedPocketStandHarvester.giRow, BoundedPocketStandHarvester.giCol);
+            BoundedPocketStandHarvester.pHarvestsites = new HARVESTSites(BoundedPocketStandHarvester.giRow, BoundedPocketStandHarvester.giCol);
 
             string str;
             str = string.Format("{0}/{1}", outputdir, strharvestOutputFile1);
@@ -136,5 +136,76 @@ namespace LandisPro.Harvest
                 return 0;
             }
         }
+
+
+        private static int gasdev_iset = 0;
+        private static float gasdev_gset;
+        private float gasdev()
+        {
+            float fac;
+            float rsq;
+            float v1;
+            float v2;
+            if (gasdev_iset == 0)
+            {
+                do
+                {
+                    v1 = (float)2.0 * system1.frand() - (float)1.0;
+                    v2 = (float)2.0 * system1.frand() - (float)1.0;
+                    rsq = v1 * v1 + v2 * v2;
+                } while (rsq >= 1.0 || rsq == 0.0F);
+                fac = (float)Math.Sqrt((float)-2.0 * Math.Log(rsq) / rsq);
+                gasdev_gset = v1 * fac;
+                gasdev_iset = 1;
+                return v2 * fac;
+            }
+            else
+            {
+                gasdev_iset = 0;
+                return gasdev_gset;
+            }
+        }
+
+
+        public static double gasdev(double mean, double sd)
+        {
+            double gset;
+            gset = gasdev() * sd + mean;
+            return gset;
+        }
+
+        public static void setUpdateFlags(int r, int c)
+        {
+
+            int sid;
+            int mid;
+            int tempMid = 0;
+
+            BoundedPocketStandHarvester.pHarvestsites.BefStChg(r, c); //Add By Qia on Nov 07 2008
+            BoundedPocketStandHarvester.pHarvestsites[r, c].setUpdateFlag();
+            BoundedPocketStandHarvester.pHarvestsites.AftStChg(r, c); //Add By Qia on Nov 07 2008
+
+            if ((sid = BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c)) > 0) //changed By Qia on Nov 4 2008
+            {
+                BoundedPocketStandHarvester.pstands[sid].setUpdateFlag();
+                tempMid = BoundedPocketStandHarvester.pstands[sid].getManagementAreaId();
+            }
+
+            if (sid > 0 && tempMid > 0)
+            {
+                BoundedPocketStandHarvester.managementAreas[tempMid].setUpdateFlag();
+            }
+        }
+
+        public static void HarvestprocessEvents(int itr)
+        {
+            BoundedPocketStandHarvester.harvestEvents.ProcessEvent(itr);
+        }
+
+        public static bool canBeHarvested(Ldpoint thePoint)
+        {
+            return BoundedPocketStandHarvester.pHarvestsites[thePoint.y, thePoint.x].canBeHarvested(thePoint.y, thePoint.x);
+        }
+
     }
 }

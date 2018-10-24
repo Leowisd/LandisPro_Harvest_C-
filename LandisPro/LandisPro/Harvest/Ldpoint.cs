@@ -15,5 +15,11 @@ namespace LandisPro.Harvest
         {
             x = y = 0;
         }
+
+        public Ldpoint(int tx, int ty)
+        {
+            x = tx;
+            y = ty;
+        }
     }
 }

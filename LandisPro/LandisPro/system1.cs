@@ -75,6 +75,15 @@ namespace LandisPro
             }
         }
 
+        public static int irand(int a, int b)
+        {
+            //Console.WriteLine("irand()");
+            // return (int)(fixRand.Next() % (b - a + 1) + a);
+            //return fixRand.Next(a, b);
+            return (int)(rand() % (b - a + 1) + a);
+        }
+        
+
         public static float read_float(StreamReader sr)
         {
             char[] content = new char[32];

@@ -94,6 +94,19 @@ namespace LandisPro
             }
         }
 
+        public void reset(int age)
+        {
+            if (age % TimeStep.Time_step == 0)
+                age = age / TimeStep.Time_step;
+            else
+                age = age / TimeStep.Time_step + 1;
+            if (age < 1 || age > 320 / TimeStep.Time_step)
+                throw new Exception("Illegal age");
+            if (age < 1 || age > agevector[0])
+                throw new Exception("Agelist Reset Problem");
+            agevector[age] = 0;
+        }
+
         public void set(int age)
         {
             if (age % TimeStep.Time_step == 0)

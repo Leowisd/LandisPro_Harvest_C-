@@ -75,6 +75,10 @@ namespace LandisPro
         public int[] flag_plant_GROUP_CUT_copy = new int[200];
         public int[] num_TreePlant_GROUP_CUT_copy = new int[200];
 
+        public double[] BiomassHarvestCost;
+        public double[] CarbonHarvestCost;
+        public int Harvestflag;
+
         public double stocking_x_value;
         public double stocking_y_value;
         public double stocking_z_value;
@@ -1893,6 +1897,107 @@ namespace LandisPro
             }
             ///////////////////////
             fp.Close();
+        }
+
+        public void Harvest70outputdim()
+        {
+            BiomassHarvestCost = new double[rows * columns];
+            CarbonHarvestCost = new double[rows * columns];
+            Harvestflag = 1;
+            Array.Clear(BiomassHarvestCost,0, rows * columns);
+            Array.Clear(CarbonHarvestCost,0, rows * columns);
+        }
+
+        //There is a return at the begining;
+        public void BefStChg(int i, int j)
+            //Before Site Change
+            //This function back up a site and following changes are based on this seprated site
+            //sort vector is not touched here
+        {
+            return;
+            //SITE temp;
+            //temp = locateSitePt(i, j);
+            //*sitetouse = temp;
+            //if (temp.numofsites == 1)
+            //{
+            //    int pos;
+            //    int ifexist = 0;
+            //    SITE_LocateinSortIndex(sitetouse, pos, ifexist);
+            //    if (ifexist != 0)
+            //    {
+            //        List<SITE>.Enumerator temp_sitePtr;
+            //        temp_sitePtr = SortedIndex.begin();
+            //        SortedIndex.erase(temp_sitePtr + pos);
+            //        temp = null;
+            //    }
+            //    else
+            //    {
+            //        Console.Write("num of vectors {0:D}\n", SortedIndex.size());
+            //        Console.Write("ERROR ERROR ERROR ERROR!!~~~{0:D}\n", pos);
+            //        temp.dump();
+            //        SortedIndex.at(pos).dump();
+            //        SortedIndex.at(pos - 1).dump();
+            //        SortedIndex.at(pos - 2).dump();
+            //        SortedIndex.at(0).dump();
+            //        SortedIndex.at(1).dump();
+            //    }
+            //}
+            //else if (temp.numofsites <= 0)
+            //{
+            //    Console.Write("NO NO NO NO NO\n");
+            //}
+            //else
+            //{
+            //    temp.numofsites--;
+            //}
+            ////sitetouse->numofsites=1;
+            //fillinSitePt(i, j, sitetouse);
+            //return;
+        }
+
+        //There is a return at the begining
+        public void AftStChg(int i, int j)
+            //After Site Change
+            //This function does combination and delete of the seprated site made by BefStChg(int i, int j)
+            //insert this site to the sorted vector
+        {
+            return;
+            //SITE_insert(0, sitetouse, i, j);
+            //return;
+        }
+
+        public void Harvest70outputIncreaseBiomassvalue(int i, int j, double value)
+        {
+            int x;
+#if BOUNDSCHECK  
+		if (i <= 0 || i> rows || j <= 0 || j> columns)  
+		{  
+			 string err = new string(new char[80]);   
+			 err = string.Format("SITES::operator() (int,int)-> ({0:D}, {1:D}) are illegal map					  coordinates", i, j);   
+			 throw new Expection(err);    
+		}   
+#endif
+
+            x = (i - 1) * columns;
+            x = x + j - 1;
+            BiomassHarvestCost[x] += value; // Add by Qia Oct 07 2008
+        }
+
+        public void Harvest70outputIncreaseCarbonvalue(int i, int j, double value)
+        {
+            int x;
+#if BOUNDSCHECK 
+			if (i <= 0 || i> rows || j <= 0 || j> columns) 
+			{    
+				 string err = new string(new char[80]);   
+				 err = string.Format("SITES::operator() (int,int)-> ({0:D}, {1:D}) are illegal map						  coordinates", i, j);   
+				 throw new Expection(err);    
+			}
+#endif
+
+            x = (i - 1) * columns;
+            x = x + j - 1;
+            CarbonHarvestCost[x] += value; // Add by Qia Oct 07 2008
         }
 
 

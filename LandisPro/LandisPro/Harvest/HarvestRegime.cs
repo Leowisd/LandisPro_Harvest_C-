@@ -92,23 +92,20 @@ namespace LandisPro.Harvest
             SetLabel(label);
             SetUserInputId(id);
 
-            instring = inFile.ReadLine();
+            if ((instring = inFile.ReadLine())==null)
+                throw new Exception("Error reading management area id from harvest section.");
             sarray = instring.Split('#');
             itsManagementAreaId = int.Parse(sarray[0]);
-            if (itsManagementAreaId != 1)
-                throw new Exception("Error reading management area id from harvest section.");
 
-            instring = inFile.ReadLine();
+            if ((instring = inFile.ReadLine())==null)
+                throw new Exception("Error reading rotation age from harvest section.");
             sarray = instring.Split('#');
             itsRotationAge = int.Parse(sarray[0]);
-            if (itsRotationAge != 1)
-                throw new Exception("Error reading rotation age from harvest section.");
 
-            instring = inFile.ReadLine();
+            if ((instring = inFile.ReadLine())==null)
+                throw new Exception("Error reading rank algorithm from harvest section.");
             sarray = instring.Split('#');
             rankAlgorithmId = int.Parse(sarray[0]);
-            if (rankAlgorithmId != 1)
-                throw new Exception("Error reading rank algorithm from harvest section.");
 
             readCustomization1(inFile);
 
@@ -175,7 +172,43 @@ namespace LandisPro.Harvest
 
         protected void writeReport(StreamWriter outfile)
         {
+            //static int firstTime = 1; change to BoundedPocketStandHarvester.harvestWriteReportFirstTime
+            if (BoundedPocketStandHarvester.harvestWriteReportFirstTime == 1)
+            {
+                outfile.WriteLine("eventType\tdescription\tdecade\tmanagementArea\tsitesCut\tsumAgesCut");
+                for (int spp = 1; spp <= BoundedPocketStandHarvester.pspeciesAttrs.Number(); spp++)
+                {
+                    outfile.WriteLine("\t{0}", BoundedPocketStandHarvester.pspeciesAttrs[spp].name);
+                }
+                outfile.WriteLine();
+                BoundedPocketStandHarvester.harvestWriteReportFirstTime = 0;
+            }
+            outfile.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", GetSequentialId(), GetLabel(), BoundedPocketStandHarvester.currentDecade, getManagementAreaId(), itsReport.numberOfSitesCut(), itsReport.sumOfCohortsCut());
 
+            for (int spp = 1; spp <= BoundedPocketStandHarvester.pspeciesAttrs.Number(); spp++)
+            {
+                outfile.WriteLine("\t{0}", itsReport.sumOfCohortsCut(spp));
+            }
+            outfile.WriteLine();
+        }
+
+        public override void Harvest()
+        {
+            List<int> rankedList = new List<int>();
+            Stand stand;
+            int standCut;
+            itsRankAlgorithm.rankStands(ref rankedList);
+            getReport().reset();
+            // length of rankedList should be equal to length of  theLength;
+            foreach (int it in rankedList)
+            {
+                stand = BoundedPocketStandHarvester.pstands[it];
+                if (stand.canBeHarvested() && (BoundedPocketStandHarvester.iParamstandAdjacencyFlag == 0 || !stand.neighborsWereRecentlyHarvested()))
+                {
+                    standCut = harvestStand(stand);
+                }
+            }
+            writeReport(BoundedPocketStandHarvester.harvestOutputFile2);
         }
     }
 }
