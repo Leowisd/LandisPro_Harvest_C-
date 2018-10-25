@@ -32,8 +32,48 @@ namespace LandisPro
         public static int numbOfIter;
         public static int numSitesActive;
         public static StreamWriter fpforTimeBU;
+        public static int[] freq;
 
         public static Land_type_Attributes gl_land_attrs = null;
+
+        private static void putHarvestOutput(int itr, double[] wAdfGeoTransform)
+        {
+            map8 m = new map8(sites.Header);
+            string str = null;
+            string str1 = null;
+            string str_htyp = null;
+            string str_htyp1 = null;
+            string str_dec= null;
+            string str_dec1 = null;
+            Harvest.GlobalFunctions.writeStandReport();
+            if (itr * freq[3] <= parameters.numberOfIterations)
+            {
+                str_htyp1 = string.Format("{0}/{1}/htyp{2:D}.img", parameters.outputDir, "Harvest", itr * freq[3] * sites.TimeStep_Harvest); //*
+                str_dec1 = string.Format("{0}/{1}/hdec{2:D}.img", parameters.outputDir, "Harvest", itr * freq[3] * sites.TimeStep_Harvest); //*
+                Harvest.GlobalFunctions.output_harvest_Dec_Type(itr, str_htyp, str_htyp1, str_dec, str_dec1, wAdfGeoTransform); //*
+                for (int i = 0; i < sites.specNum; i++)
+                {
+                    str1 = string.Format("{0}/{1}/{2}_BACut{3:D}.img", parameters.outputDir, "Harvest", speciesAttrs[i + 1].name, itr * freq[3] * sites.TimeStep_Harvest); //*
+                    Harvest.GlobalFunctions.PutOutput_harvestBACut_spec(str, str1, i, wAdfGeoTransform); //*
+                }
+                str1 = string.Format("{0}/{1}/BACut{2:D}.img", parameters.outputDir, "Harvest", itr * freq[3] * sites.TimeStep_Harvest); //*
+                Harvest.GlobalFunctions.PutOutput_harvestBACut(str, str1, wAdfGeoTransform);
+            }
+            if (parameters.numberOfIterations % freq[3] != 0)
+            {
+                str_htyp1 = string.Format("{0}/{1}/htyp{2:D}.img", parameters.outputDir, "Harvest", parameters.numberOfIterations * sites.TimeStep_Harvest); //*
+                str_dec1 = string.Format("{0}/{1}/hdec{2:D}.img", parameters.outputDir, "Harvest", parameters.numberOfIterations * sites.TimeStep_Harvest); //*
+                Harvest.GlobalFunctions.output_harvest_Dec_Type(itr, str_htyp, str_htyp1, str_dec, str_dec1, wAdfGeoTransform); //*
+                for (int i = 0; i < sites.specNum; i++)
+                {
+                    str1 = string.Format("{0}/{1}/{2}_BACut{3:D}.img", parameters.outputDir, "Harvest", speciesAttrs[i + 1].name, parameters.numberOfIterations * sites.TimeStep_Harvest); //*
+                    Harvest.GlobalFunctions.PutOutput_harvestBACut_spec(str, str1, i, wAdfGeoTransform); //*
+                }
+                str1 = string.Format("{0}/{1}/BACut{2:D}.img", parameters.outputDir, "Harvest", parameters.numberOfIterations * sites.TimeStep_Harvest); //*
+                Harvest.GlobalFunctions.PutOutput_harvestBACut(str, str1, wAdfGeoTransform);
+            }
+        }
+
 
         static void Main(string[] args)
         {
@@ -44,7 +84,7 @@ namespace LandisPro
             StreamReader infile = new StreamReader("parameterbasic.dat");
             gDLLMode = 0;
             int BDANo = 0;
-            int[] freq = new int[6];
+            freq = new int[6];
             int reclYear = 0;
             /*
              * Get DLL mode and read from parameters.dat
@@ -226,7 +266,7 @@ namespace LandisPro
 
             Console.WriteLine("Processing succession at Year {0}", i);
                   
-            singularLandisIteration(i, pPDP);
+            singularLandisIteration(i, pPDP, wAdfGeoTransform);
 
             int i_d_timestep = i / sites.TimeStep;
             if (i % sites.TimeStep == 0 || i == numbOfIter * sites.TimeStep)
@@ -396,7 +436,7 @@ namespace LandisPro
         //                      SINGULAR LANDIS ITERATION ROUTINE                  //
 
         /////////////////////////////////////////////////////////////////////////////
-        public static void singularLandisIteration(int itr, PDP ppdp)
+        public static void singularLandisIteration(int itr, PDP ppdp, double[] wAdfGeoTransform)
         {
             DateTime ltime, ltimeTemp;
             TimeSpan ltimeDiff;
@@ -411,7 +451,7 @@ namespace LandisPro
                     Console.WriteLine("Processing harvest events.\n");
                     ltime = DateTime.Now;
                     Harvest.GlobalFunctions.HarvestprocessEvents(itr / sites.TimeStep);  //Global Function
-                    //putHarvestOutput(itr / sites.TimeStep_Harvest, wAdfGeoTransform); //output img files, is it necessary?
+                    putHarvestOutput(itr / sites.TimeStep_Harvest, wAdfGeoTransform); //output img files, is it necessary?
                     ltimeTemp = DateTime.Now;
                     ltimeDiff = ltimeTemp - ltime;
                     fpforTimeBU.WriteLine("Processing harvest: " + ltimeDiff +" seconds");

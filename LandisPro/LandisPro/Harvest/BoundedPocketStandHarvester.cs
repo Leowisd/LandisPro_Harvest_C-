@@ -101,7 +101,7 @@ namespace LandisPro.Harvest
             int siteCut = 0;
             int sumCut = 0;
             int c = 0;
-            visitationMap[(uint)itsStartPoint.y, (uint)itsStartPoint.x] = currentHarvestEventId);
+            visitationMap[(uint)itsStartPoint.y, (uint)itsStartPoint.x] = currentHarvestEventId;
             itsNeighborList.Add(itsStartPoint);
 
             while (sumCut < itsTargetCut && itsNeighborList.Count > 0)

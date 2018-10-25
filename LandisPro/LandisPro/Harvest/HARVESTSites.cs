@@ -74,6 +74,7 @@ namespace LandisPro.Harvest
             return result;
         }
 
+
         public bool wasRecentlyHarvested()
         {
             bool result;
@@ -156,6 +157,55 @@ namespace LandisPro.Harvest
             }
 
         }
+
+        public double GetValueHarvestBA(int i, int j)
+        {
+            int x;
+            x = (i - 1) * m_iCols;
+            x = x + j - 1;
+            return BA_harvest_output[x];
+        }
+
+        public double GetValueHarvestBA_spec(int i, int j, int spec)
+        {
+            int x;
+            x = (i - 1) * m_iCols;
+            x = x + j - 1;
+            return BA_harvest_output_spec[spec][x];
+        }
+
+        public int clearValueHarvestBA()
+        {
+            int r = m_iRows;
+            int c = m_iCols;
+            int i;
+            int j;
+            int x;
+            for (i = 1; i <= r; i++)
+            {
+                for (j = 1; j <= c; j++)
+                {
+                    x = (i - 1) * m_iCols;
+                    x = x + j - 1;
+                    BA_harvest_output[x] = 0.0;
+                }
+            }
+            for (int i_spec = 0; i_spec < BoundedPocketStandHarvester.pCoresites.specNum; i_spec++)
+            {
+                for (i = 1; i <= r; i++)
+                {
+                    for (j = 1; j <= c; j++)
+                    {
+                        x = (i - 1) * m_iCols;
+                        x = x + j - 1;
+                        BA_harvest_output_spec[i_spec][x] = 0.0;
+                    }
+                }
+            }
+            return 1;
+        }
+
+
         public int AddMoreValueHarvestBA_spec(int i, int j, int spec, double value)
         {
             int x;
@@ -171,6 +221,15 @@ namespace LandisPro.Harvest
             x = (i - 1) * m_iCols;
             x = x + j - 1;
             BA_harvest_output[x] += value;
+            return 0;
+        }
+
+        public int SetValueHarvestBA(int i, int j, double value)
+        {
+            int x;
+            x = (i - 1) * m_iCols;
+            x = x + j - 1;
+            BA_harvest_output[x] = value;
             return 0;
         }
 

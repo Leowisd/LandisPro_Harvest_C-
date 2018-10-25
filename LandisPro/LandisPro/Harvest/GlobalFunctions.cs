@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using OSGeo.GDAL;
+using OSGeo.OSR;
 
 namespace LandisPro.Harvest
 {
@@ -46,7 +48,7 @@ namespace LandisPro.Harvest
             BoundedPocketStandHarvester.giRow = BoundedPocketStandHarvester.pCoresites.numRows();
             BoundedPocketStandHarvester.giCol = BoundedPocketStandHarvester.pCoresites.numColumns();
 
-            BoundedPocketStandHarvester.my_pPDP = pdp;
+            BoundedPocketStandHarvester.m_pPDP = pdp;
             BoundedPocketStandHarvester.numberOfSpecies = isp;
 
             StreamReader pfHarvest = new StreamReader(strHarvestInitFile);
@@ -140,7 +142,7 @@ namespace LandisPro.Harvest
 
         private static int gasdev_iset = 0;
         private static float gasdev_gset;
-        private float gasdev()
+        private static float gasdev()
         {
             float fac;
             float rsq;
@@ -206,6 +208,297 @@ namespace LandisPro.Harvest
         {
             return BoundedPocketStandHarvester.pHarvestsites[thePoint.y, thePoint.x].canBeHarvested(thePoint.y, thePoint.x);
         }
+
+        private static int writeStandReport_firstTime = 1;
+        public static void writeStandReport()
+        {
+            IntArray sumCut = new IntArray(BoundedPocketStandHarvester.pstands.number());
+            int i;
+            int j;
+            int snr;
+            int snc;
+
+            if (writeStandReport_firstTime == 1)
+            {
+                BoundedPocketStandHarvester.harvestOutputFile1.WriteLine("decade\tmanagementArea\tstand\tnumSitesHarvested");
+                writeStandReport_firstTime = 0;
+            }
+            snr = BoundedPocketStandHarvester.pCoresites.numRows();
+            snc = BoundedPocketStandHarvester.pCoresites.numColumns();
+            for (i = 1; i <= snr; i++)
+            {
+                for (j = 1; j <= snc; j++)
+                {
+                    if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
+                    {
+                        sumCut[BoundedPocketStandHarvester.standMap.getvalue32out((uint)i, (uint)j)]++; //change by Qia on Nov 4 2008
+                    }
+                }
+            }
+            for (i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
+            {
+                if (sumCut[i] > 0)
+                {
+                    BoundedPocketStandHarvester.harvestOutputFile1.WriteLine("{0}\t{1}\t{2}\t{3}", BoundedPocketStandHarvester.currentDecade, BoundedPocketStandHarvester.pstands[i].getManagementAreaId(), i, sumCut[i]);
+                }
+            }
+        }
+
+        //public static void outputFileheader(StreamWriter fp)
+
+        //{
+        //    fp.WriteLine("ncols  {0}", BoundedPocketStandHarvester.pCoresites.numColumns());
+        //    fp.WriteLine("nrows  {0}", BoundedPocketStandHarvester.pCoresites.numRows());
+        //    fp.WriteLine("xllcorner  {0}", BoundedPocketStandHarvester.pCoresites.XLLCorner - (float)BoundedPocketStandHarvester.pCoresites.Header[30] / 2);
+        //    fp.WriteLine("yllcorner  {0}", BoundedPocketStandHarvester.pCoresites.YLLCorner - (float)BoundedPocketStandHarvester.pCoresites.Header[30] * BoundedPocketStandHarvester.pCoresites.numRows() + (float)BoundedPocketStandHarvester.pCoresites.Header[30] / 2);
+        //    fp.WriteLine("cellsize  {0}", (float)BoundedPocketStandHarvester.pCoresites.Header[30]);
+        //    fp.WriteLine("NODATA_value  -9999");
+        //}
+
+        public static void output_harvest_Dec_Type(int itr, string str_htyp, string str_htyp1, string str_dec, string str_dec1, double[] wAdfGeoTransform)
+        {
+            // Harvest type map
+            StreamWriter fp;
+            int i;
+            int j;
+            int temp;
+            string pszFormat = "HFA"; //*
+            Driver poDriver; //*
+            string[] papszMetadata; //*
+            poDriver = Gdal.GetDriverByName(pszFormat); //*
+            if (poDriver == null) //*
+            {
+                Environment.Exit(1);
+            }
+            papszMetadata = poDriver.GetMetadata(""); //*
+            Dataset poDstDS; //*
+            Band outPoBand; //*
+            float cellsize = (BoundedPocketStandHarvester.pCoresites.Header[30]);
+            string[] papszOptions = null; //*
+            float[] pafScanline; //*
+            float[] pintScanline;
+
+            string pszSRS_WKT = null; //*
+
+            SpatialReference oSRS = new SpatialReference(null); //*
+            oSRS.SetUTM(11, 1); //*
+            oSRS.SetWellKnownGeogCS("HEAD74"); //*
+            oSRS.ExportToWkt(out pszSRS_WKT); //*
+            pszSRS_WKT = null;
+
+            pintScanline = new float[BoundedPocketStandHarvester.pCoresites.numRows() * BoundedPocketStandHarvester.pCoresites.numColumns()]; //*
+
+            poDstDS = poDriver.Create(str_htyp1, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 1, DataType.GDT_CFloat32, papszOptions); //*
+            if (poDstDS == null)
+            {
+                throw new Exception("Img file not be created."); //*
+            }
+            outPoBand = poDstDS.GetRasterBand(1); //*
+            poDstDS.SetGeoTransform(wAdfGeoTransform); //*
+            for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+            {
+                for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+                {
+                    if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
+                    {
+                        temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestType();
+                    }
+                    else
+                    {
+                        temp = 0;
+                    }
+                    pintScanline[(BoundedPocketStandHarvester.pCoresites.numRows() - i) * BoundedPocketStandHarvester.pCoresites.numColumns() + j - 1] = temp; //*
+                }
+            }
+            outPoBand.WriteRaster(0, 0, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), pintScanline, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 0, 0); //*
+
+            if (poDstDS != null)
+            {
+                poDstDS.Dispose();
+            }
+
+            pintScanline = null;
+
+            pintScanline = new float[BoundedPocketStandHarvester.pCoresites.numRows() * BoundedPocketStandHarvester.pCoresites.numColumns()]; //*
+
+            poDstDS = poDriver.Create(str_dec1, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 1, DataType.GDT_Float32, papszOptions); //*
+            if (poDstDS == null)
+            {
+                throw new Exception("Img file not be created."); //*
+            }
+            outPoBand = poDstDS.GetRasterBand(1); //*
+            poDstDS.SetGeoTransform(wAdfGeoTransform); //*
+            for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+            {
+                for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+                {
+                    temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade();
+                    pintScanline[(BoundedPocketStandHarvester.pCoresites.numRows() - i) * BoundedPocketStandHarvester.pCoresites.numColumns() + j - 1] = temp; //*
+                }
+            }    
+            outPoBand.WriteRaster(0, 0, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), pintScanline, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 0, 0); //*
+            if (poDstDS != null)
+            {
+                poDstDS.Dispose(); //*
+            }
+            pintScanline = null;
+            return;
+
+        }
+
+        public static void PutOutput_harvestBACut_spec(string fn, string fn1, int spec, double[] wAdfGeoTransform)
+        {
+            StreamWriter fpOutput;
+            int i;
+            int j;
+            string pszFormat = "HFA"; //*
+            Driver poDriver; //*
+            string[] papszMetadata; //*
+            poDriver = Gdal.GetDriverByName(pszFormat); //*
+            if (poDriver == null) //*
+            {
+                Environment.Exit(1);
+            }
+            papszMetadata = poDriver.GetMetadata(""); //*
+            Dataset poDstDS; //*
+            Band outPoBand; //*
+            float cellsize = BoundedPocketStandHarvester.pCoresites.Header[30];
+            string[] papszOptions = null; //*
+            float[] pafScanline; //*
+            uint[] pintScanline;
+            string pszSRS_WKT = null; //*
+            SpatialReference oSRS = new SpatialReference(null);//*
+
+            oSRS.SetUTM(11, 1); //*
+            oSRS.SetWellKnownGeogCS("HEAD74"); //*
+            oSRS.ExportToWkt(out pszSRS_WKT); //*
+            pszSRS_WKT = null; //*
+            pafScanline = new float[BoundedPocketStandHarvester.pCoresites.numRows() * BoundedPocketStandHarvester.pCoresites.numColumns()];//*
+            poDstDS = poDriver.Create(fn1, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 1, DataType.GDT_Float32, papszOptions); //*
+
+            if (poDstDS == null)
+            {
+                throw new Exception("Img file not be created."); //*
+            }
+            outPoBand = poDstDS.GetRasterBand(1); //*
+            poDstDS.SetGeoTransform(wAdfGeoTransform); //*
+            for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+            {
+                for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+                {
+                    pafScanline [(BoundedPocketStandHarvester.pCoresites.numRows() - i) * BoundedPocketStandHarvester.pCoresites.numColumns() + j - 1] = (float)BoundedPocketStandHarvester.pHarvestsites.GetValueHarvestBA_spec(i, j, spec); //*
+                }
+            }
+            outPoBand.WriteRaster(0, 0, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), pafScanline, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 0, 0); //*
+            if (poDstDS != null)
+            {
+                poDstDS.Dispose(); //*
+            }
+            pafScanline = null;
+        }
+
+        public static void PutOutput_harvestBACut(string fn, string fn1, double[] wAdfGeoTransform)
+        {
+            StreamWriter fpOutput;
+            int i;
+            int j;
+            string pszFormat = "HFA"; //*
+            Driver poDriver; //*
+            string[] papszMetadata; //*
+            poDriver = Gdal.GetDriverByName(pszFormat); //*
+            if (poDriver == null) //*
+            {
+                Environment.Exit(1);
+            }
+            papszMetadata = poDriver.GetMetadata(""); //*
+            Dataset poDstDS; //*
+            Band outPoBand; //*
+            float cellsize = BoundedPocketStandHarvester.pCoresites.Header[30];
+            string[] papszOptions = null; //*
+            float[] pafScanline; //*
+            uint[] pintScanline;
+            string pszSRS_WKT = null; //*
+            SpatialReference oSRS = new SpatialReference(null); //*
+            oSRS.SetUTM(11, 1); //*
+            oSRS.SetWellKnownGeogCS("HEAD74"); //*
+            oSRS.ExportToWkt(out pszSRS_WKT); //*
+            pafScanline = new float[BoundedPocketStandHarvester.pCoresites.numRows() * BoundedPocketStandHarvester.pCoresites.numColumns()]; //*
+
+            poDstDS = poDriver.Create(fn1, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 1, DataType.GDT_Float32, papszOptions); //*
+            if (poDstDS == null)
+            {
+                throw new Exception("Img file not be created."); //*
+            }
+            outPoBand = poDstDS.GetRasterBand(1); //*
+            poDstDS.SetGeoTransform(wAdfGeoTransform); //*
+            for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+            {
+                for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+                {
+                    double tmpBAout = BoundedPocketStandHarvester.pHarvestsites.GetValueHarvestBA(i, j);
+                    pafScanline [(BoundedPocketStandHarvester.pCoresites.numRows() - i) * BoundedPocketStandHarvester.pCoresites.numColumns() + j - 1 ]= (float)BoundedPocketStandHarvester.pHarvestsites.GetValueHarvestBA(i, j); //*
+                }
+            }
+            BoundedPocketStandHarvester.pHarvestsites.clearValueHarvestBA();
+
+            outPoBand.WriteRaster(0, 0, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), pafScanline, BoundedPocketStandHarvester.pCoresites.numColumns(), BoundedPocketStandHarvester.pCoresites.numRows(), 0, 0); //*
+            if (poDstDS != null)
+            {
+                poDstDS.Dispose(); //*
+            }
+            pafScanline = null;
+        }
+
+
+
+
+        //public static void output_harvest_Dec_Type(int itr, string str_htyp, string str_dec)
+        //{
+        //    StreamWriter fp;
+        //    int i;
+        //    int j;
+        //    int temp;
+
+        //    if ((fp = new StreamWriter(str_htyp)) == null)
+        //        throw new Exception("can not open output file 1");
+
+        //    outputFileheader(fp);
+
+        //    for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+        //    {
+        //        for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+        //        {
+        //            if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
+        //            {
+        //                temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestType();
+        //            }
+        //            else
+        //            {
+        //                temp = 0;
+        //            }
+        //            fp.WriteLine(temp);
+        //        }
+        //    }
+        //    fp.Close();
+
+        //    if ((fp = new StreamWriter(str_dec)) == null)
+        //        throw new Exception("can not open output file 1");
+
+        //    outputFileheader(fp);
+
+        //    for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
+        //    {
+        //        for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
+        //        {
+        //            temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade();
+        //            fp.WriteLine();
+        //        }
+        //    }
+        //    fp.Close();
+        //    return;
+        //}
+
+
 
     }
 }

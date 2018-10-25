@@ -24,11 +24,5 @@ namespace LandisPro.Harvest
                 itsMaturity[i] = 1;
             }
         }
-
-        public override void rankStands(List<int> theRankedList)
-        {
-            int i, id;
-
-        }
     }
 }

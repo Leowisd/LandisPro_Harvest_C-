@@ -98,6 +98,7 @@
     <Compile Include="Harvest\Ldpoint.cs" />
     <Compile Include="Harvest\ManagementArea.cs" />
     <Compile Include="Harvest\ManagementAreas.cs" />
+    <Compile Include="Harvest\MultiplePocketStandHarvester.cs" />
     <Compile Include="Harvest\OnePassStandBasedRegime.cs" />
     <Compile Include="Harvest\OnePassStandFillingRegime.cs" />
     <Compile Include="Harvest\OnePassStandSpreadingRegime.cs" />
@@ -107,8 +108,10 @@
     <Compile Include="Harvest\RankbyStocking.cs" />
     <Compile Include="Harvest\RankbyVolume.cs" />
     <Compile Include="Harvest\RepeatingTwoPassStandFillingRegime.cs" />
+    <Compile Include="Harvest\SiteHarvester.cs" />
     <Compile Include="Harvest\SiteRemovalMask.cs" />
     <Compile Include="Harvest\Stand.cs" />
+    <Compile Include="Harvest\StandHarvest.cs" />
     <Compile Include="Harvest\StandIterator.cs" />
     <Compile Include="Harvest\StandRankingAlgorithm.cs" />
     <Compile Include="Harvest\Stands.cs" />

@@ -83,6 +83,9 @@ namespace LandisPro
         public double stocking_y_value;
         public double stocking_z_value;
 
+        public double XLLCorner;
+        public double YLLCorner;
+
         public Site this[int i, int j]
         {
             get
@@ -104,6 +107,24 @@ namespace LandisPro
         public uint[] Header
         {
             get { return header; }
+        }
+
+        public void setHeader(uint[] dest)
+        {
+            for (int i = 0; i < 32; ++i)
+            {
+                header[i] = dest[i];
+            }
+
+
+            byte[] bytes = BitConverter.GetBytes(header[28]);
+            XLLCorner = System.BitConverter.ToSingle(bytes, 0);
+
+            bytes = BitConverter.GetBytes(header[29]);
+            YLLCorner = System.BitConverter.ToSingle(bytes, 0);
+
+            //xLLCorner = header[28];
+            //yLLCorner = header[29];
         }
 
         public void fillinLanduPt(int i, int j, Landunit landUnitPt)
