@@ -36,8 +36,7 @@ namespace LandisPro.Harvest
             Directory.CreateDirectory(outputdir);
             if (!Directory.Exists(outputdir))
             {
-                Console.WriteLine("Harvest: Can't create the direcory");
-                Console.Read();
+                throw new Exception("Harvest: Can't create the direcory");
             }
 
             int timber;
@@ -120,9 +119,16 @@ namespace LandisPro.Harvest
 
             string str;
             str = string.Format("{0}/{1}", outputdir, strharvestOutputFile1);
-            BoundedPocketStandHarvester.harvestOutputFile1 = new StreamWriter(str);
+            BoundedPocketStandHarvester.harvestOutputFile1_name = str;
+            using (BoundedPocketStandHarvester.harvestOutputFile1 = new StreamWriter(str))
+            {
+            }
+            
             str = string.Format("{0}/{1}", outputdir, strharvestOutputFile2);
-            BoundedPocketStandHarvester.harvestOutputFile2 = new StreamWriter(str);
+            BoundedPocketStandHarvester.harvestOutputFile2_name = str;
+            using (BoundedPocketStandHarvester.harvestOutputFile2 = new StreamWriter(str))
+            {
+            }
 
             haFile.Close();
         }
@@ -217,29 +223,34 @@ namespace LandisPro.Harvest
             int j;
             int snr;
             int snc;
-
-            if (writeStandReport_firstTime == 1)
+            using (StreamWriter fp = File.AppendText(BoundedPocketStandHarvester.harvestOutputFile1_name))
             {
-                BoundedPocketStandHarvester.harvestOutputFile1.WriteLine("decade\tmanagementArea\tstand\tnumSitesHarvested");
-                writeStandReport_firstTime = 0;
-            }
-            snr = BoundedPocketStandHarvester.pCoresites.numRows();
-            snc = BoundedPocketStandHarvester.pCoresites.numColumns();
-            for (i = 1; i <= snr; i++)
-            {
-                for (j = 1; j <= snc; j++)
+                if (writeStandReport_firstTime == 1)
                 {
-                    if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
+                    fp.WriteLine("decade\tmanagementArea\tstand\tnumSitesHarvested");
+                    writeStandReport_firstTime = 0;
+                }
+
+                snr = BoundedPocketStandHarvester.pCoresites.numRows();
+                snc = BoundedPocketStandHarvester.pCoresites.numColumns();
+                for (i = 1; i <= snr; i++)
+                {
+                    for (j = 1; j <= snc; j++)
                     {
-                        sumCut[BoundedPocketStandHarvester.standMap.getvalue32out((uint)i, (uint)j)]++; //change by Qia on Nov 4 2008
+                        //Console.WriteLine(BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade()); => get wrong harvestDecade!
+                        if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
+                        {
+                            sumCut[BoundedPocketStandHarvester.standMap.getvalue32out((uint) i, (uint) j)]++; //change by Qia on Nov 4 2008
+                        }
                     }
                 }
-            }
-            for (i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
-            {
-                if (sumCut[i] > 0)
+
+                for (i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
                 {
-                    BoundedPocketStandHarvester.harvestOutputFile1.WriteLine("{0}\t{1}\t{2}\t{3}", BoundedPocketStandHarvester.currentDecade, BoundedPocketStandHarvester.pstands[i].getManagementAreaId(), i, sumCut[i]);
+                    if (sumCut[i] > 0)
+                    {
+                        fp.WriteLine("{0}\t{1}\t{2}\t{3}",BoundedPocketStandHarvester.currentDecade,BoundedPocketStandHarvester.pstands[i].getManagementAreaId(), i, sumCut[i]);
+                    }
                 }
             }
         }

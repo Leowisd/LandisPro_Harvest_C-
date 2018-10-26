@@ -172,24 +172,32 @@ namespace LandisPro.Harvest
 
         protected void writeReport(StreamWriter outfile)
         {
-            //static int firstTime = 1; change to BoundedPocketStandHarvester.harvestWriteReportFirstTime
-            if (BoundedPocketStandHarvester.harvestWriteReportFirstTime == 1)
+            using (StreamWriter fp = File.AppendText(BoundedPocketStandHarvester.harvestOutputFile2_name))
             {
-                outfile.WriteLine("eventType\tdescription\tdecade\tmanagementArea\tsitesCut\tsumAgesCut");
+                //static int firstTime = 1; change to BoundedPocketStandHarvester.harvestWriteReportFirstTime
+                if (BoundedPocketStandHarvester.harvestWriteReportFirstTime == 1)
+                {
+                    fp.Write("eventType\tdescription\tdecade\tmanagementArea\tsitesCut\tsumAgesCut");
+                    for (int spp = 1; spp <= BoundedPocketStandHarvester.pspeciesAttrs.Number(); spp++)
+                    {
+                        fp.Write("\t{0}", BoundedPocketStandHarvester.pspeciesAttrs[spp].name);
+                    }
+
+                    fp.WriteLine();
+                    BoundedPocketStandHarvester.harvestWriteReportFirstTime = 0;
+                }
+
+                fp.Write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", GetSequentialId(), GetLabel(),
+                BoundedPocketStandHarvester.currentDecade, getManagementAreaId(), itsReport.numberOfSitesCut(),
+                itsReport.sumOfCohortsCut());
+
                 for (int spp = 1; spp <= BoundedPocketStandHarvester.pspeciesAttrs.Number(); spp++)
                 {
-                    outfile.WriteLine("\t{0}", BoundedPocketStandHarvester.pspeciesAttrs[spp].name);
+                    fp.Write("\t{0}", itsReport.sumOfCohortsCut(spp));
                 }
-                outfile.WriteLine();
-                BoundedPocketStandHarvester.harvestWriteReportFirstTime = 0;
-            }
-            outfile.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}", GetSequentialId(), GetLabel(), BoundedPocketStandHarvester.currentDecade, getManagementAreaId(), itsReport.numberOfSitesCut(), itsReport.sumOfCohortsCut());
 
-            for (int spp = 1; spp <= BoundedPocketStandHarvester.pspeciesAttrs.Number(); spp++)
-            {
-                outfile.WriteLine("\t{0}", itsReport.sumOfCohortsCut(spp));
+                fp.WriteLine();
             }
-            outfile.WriteLine();
         }
 
         public override void Harvest()

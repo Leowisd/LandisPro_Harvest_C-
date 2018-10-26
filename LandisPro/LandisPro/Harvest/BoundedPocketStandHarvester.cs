@@ -27,7 +27,9 @@ namespace LandisPro.Harvest
         public static ManagementAreas managementAreas = new ManagementAreas();
         public static HarvestEventQueue harvestEvents = new HarvestEventQueue();
         public static StreamWriter harvestOutputFile1;
+        public static string harvestOutputFile1_name = null;
         public static StreamWriter harvestOutputFile2;
+        public static string harvestOutputFile2_name = null;
         public static ushort currentHarvestEventId;
         public static HARVESTSites pHarvestsites;
 

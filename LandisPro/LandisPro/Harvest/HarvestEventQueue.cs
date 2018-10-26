@@ -117,7 +117,7 @@ namespace LandisPro.Harvest
         {
             HarvestEvent p;
             legendLabeNo = 0;
-
+             
             foreach (HarvestEvent item in itsEvents)
             {
                 p = item;

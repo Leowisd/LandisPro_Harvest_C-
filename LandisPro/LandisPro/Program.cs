@@ -451,7 +451,7 @@ namespace LandisPro
                     Console.WriteLine("Processing harvest events.\n");
                     ltime = DateTime.Now;
                     Harvest.GlobalFunctions.HarvestprocessEvents(itr / sites.TimeStep);  //Global Function
-                    putHarvestOutput(itr / sites.TimeStep_Harvest, wAdfGeoTransform); //output img files, is it necessary?
+                    putHarvestOutput(itr / sites.TimeStep_Harvest, wAdfGeoTransform); //output img files
                     ltimeTemp = DateTime.Now;
                     ltimeDiff = ltimeTemp - ltime;
                     fpforTimeBU.WriteLine("Processing harvest: " + ltimeDiff +" seconds");
