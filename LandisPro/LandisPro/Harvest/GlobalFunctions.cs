@@ -237,7 +237,7 @@ namespace LandisPro.Harvest
                 {
                     for (j = 1; j <= snc; j++)
                     {
-                        //Console.WriteLine(BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade()); => get wrong harvestDecade!
+                        //Console.WriteLine(BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade()); //=> get wrong harvestDecade!
                         if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
                         {
                             sumCut[BoundedPocketStandHarvester.standMap.getvalue32out((uint) i, (uint) j)]++; //change by Qia on Nov 4 2008

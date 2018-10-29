@@ -230,5 +230,10 @@ namespace LandisPro.Harvest
         {
             itsUpdateFlag = 1;
         }
+        public void reserve()
+        {
+
+            itsReserveFlag = 1;
+        }
     }
 }

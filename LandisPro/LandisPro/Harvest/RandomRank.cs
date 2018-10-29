@@ -24,7 +24,8 @@ namespace LandisPro.Harvest
             IntArray theStandArray = new IntArray(itsManagementArea.numberOfStands());
             IntArray theAgeArray = new IntArray(itsManagementArea.numberOfStands());
             int theLength = 0;
-            filter(theStandArray, theAgeArray, ref theLength);
+            filter(ref theStandArray, ref theAgeArray, ref theLength);
+
             for (int i = 1; i <= theLength; i++)
             {
                 int k = (int)(theLength * system1.frand()) + 1;
@@ -38,7 +39,7 @@ namespace LandisPro.Harvest
                 theStandArray[i] = theStandArray[k];
                 theStandArray[k] = temp;
             }
-            assign(theStandArray, theLength, theRankedList);
+            assign(theStandArray, theLength, ref theRankedList);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace LandisPro.Harvest
             IntArray theStandArray = new IntArray(itsManagementArea.numberOfStands());
             IntArray theAgeArray = new IntArray(itsManagementArea.numberOfStands());
             IntArray theSortKeyArray = new IntArray(itsManagementArea.numberOfStands());
-            filter(theStandArray, theAgeArray, ref theLength);
+            filter(ref theStandArray, ref theAgeArray, ref theLength);
             SortKeyArrayDouble = new double[theLength + 1];
 
             for (i = 1; i <= theLength; i++)
@@ -37,7 +37,7 @@ namespace LandisPro.Harvest
                 SortKeyArrayDouble[i] = computeStandBA(stand);
             }
             descendingSort_doubleArray(theStandArray, SortKeyArrayDouble, theLength);
-            assign(theStandArray, theLength, theRankedList);
+            assign(theStandArray, theLength, ref theRankedList);
             SortKeyArrayDouble = null;
         }
 

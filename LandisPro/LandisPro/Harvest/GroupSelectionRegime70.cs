@@ -171,6 +171,35 @@ namespace LandisPro.Harvest
             }
         }
 
+        public override int harvestStand(Stand stand)
+        {
+            SitesCut += stand.numberOfActiveSites();
+            //printf("sitesinstand:%d SitesCut:%d Target:%d\n",stand->numberOfActiveSites(),SitesCut,itsTargetCut);
+            SiteHarvester theSiteHarvester = new SiteHarvester(GetUserInputId(), getRemovalMask(), getReport(), getDuration());
+            MultiplePocketStandHarvester theStandHarvester = new MultiplePocketStandHarvester(stand, itsStandProportion, itsMeanGroupSize, itsStandardDeviation, theSiteHarvester);
+            int standCut = theStandHarvester.Harvest();
+            if (standCut > 0)
+            {
+                stand.reserve();
+                itsStands.Add(stand.getId());
+                itsTotalNumberOfStands++;
+            }
+            return 1;
+        }
+
+        public override int isHarvestDone()
+        {
+            if (SitesCut >= itsTargetCut)
+            {
+                SitesCut = 0;
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
 
         public override void Read(StreamReader infile)
         {

@@ -179,6 +179,81 @@ namespace LandisPro.Harvest
             }
         }
 
+        public override int harvestStand(Stand stand)
+        {
+            //printf("before harvest standID: %d, stocking: %lf\n",stand->getId(),computeStandStocking(stand));
+            SitesCut += stand.numberOfActiveSites();
+            //printf("sitesinstand:%d SitesCut:%d Target:%d\n",stand->numberOfActiveSites(),SitesCut,itsTargetCut);
+            Ldpoint pt = new Ldpoint();
+            int m;
+            int k;
+            int i;
+            int j;
+            double TmpStockingS;
+            double TmpStockingS_avg;
+            double Stocking_toCut;
+            double shareCut_ACell;
+            TmpStockingS = 0;
+            for (StandIterator it = new StandIterator(stand); it.moreSites(); it.gotoNextSite())
+            {
+                pt = it.getCurrentSite();
+                i = pt.y;
+                j = pt.x;
+                TmpStockingS += GetStockinginACell(i, j);
+            }
+            TmpStockingS = TmpStockingS / stand.numberOfActiveSites();
+            //TmpStockingS_avg = TmpStockingS / pCoresites->CellSize/pCoresites->CellSize/stand->numberOfActiveSites()*10000;
+            TmpStockingS_avg = TmpStockingS / stand.numberOfActiveSites();
+            if (TmpStockingS <= Mininum_Stocking)
+            {
+
+            }
+            else
+            { //Cut trees here
+
+                //printf("Enough to Harvest\n");
+                StandsCut++;
+                itsStands.Add(stand.getId()); //Add By Qia on June 01 2012
+                Stocking_toCut = TmpStockingS - TargetStocking;
+                //Stocking_toCut = Stocking_toCut * pCoresites->CellSize * pCoresites->CellSize * stand->numberOfActiveSites()/10000;
+                for (StandIterator it = new StandIterator(stand); it.moreSites(); it.gotoNextSite())
+                {
+                    pt = it.getCurrentSite();
+                    i = pt.y;
+                    j = pt.x;
+                    shareCut_ACell = GetStockinginACell(i, j) / TmpStockingS * Stocking_toCut;
+                    if (shareCut_ACell > 0.0)
+                    {
+                        //CutShareStockinginACell(i,j,shareCut_ACell);
+                        //SitesCut++;
+                        CutShareStockinginACell_LifeSpanPercent(i, j, shareCut_ACell);
+                        BoundedPocketStandHarvester.pHarvestsites[i, j].harvestType = (short)GetUserInputId();
+                        BoundedPocketStandHarvester.pHarvestsites[i, j].lastHarvest = (short)BoundedPocketStandHarvester.currentDecade;
+                    }
+                    else
+                    {
+                        //pHarvestsites->SetValueHarvestBA(i,j,shareCut_ACell);
+                    }
+                }
+            }
+            //return StandsCut;
+            //printf("after harvest standID: %d, stocking: %lf\n",stand->getId(),computeStandStocking(stand));
+            return 1;
+        }
+
+        public override int isHarvestDone()
+        {
+            if (SitesCut >= itsTargetCut)
+            {
+                SitesCut = 0;
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public double GetStockinginACell_spec_age(int i, int j, int spec, int age)
         {
             int m = age;

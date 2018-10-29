@@ -31,7 +31,7 @@ namespace LandisPro.Harvest
 
         }
 
-        public void filter(IntArray theStandArray, IntArray theAgeArray, ref int theLength)
+        public void filter(ref IntArray theStandArray, ref IntArray theAgeArray, ref int theLength)
         {
             Stand stand;
 
@@ -39,7 +39,7 @@ namespace LandisPro.Harvest
 
             List<int> it = new List<int>();
             it = itsManagementArea.itsStandList;
-            for (int i = itsManagementId; i < it.Count; i++)
+            for (int i = 0; i < it.Count; i++)
             {
                 int id = it[i];
                 stand = BoundedPocketStandHarvester.pstands[id];
@@ -76,7 +76,7 @@ namespace LandisPro.Harvest
         }
 
 
-        public void assign(IntArray theStandArray, int theLength, List<int> theRankedList)
+        public void assign(IntArray theStandArray, int theLength, ref List<int> theRankedList)
         {
             for (int i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
                 BoundedPocketStandHarvester.pstands[i].setRank(0);

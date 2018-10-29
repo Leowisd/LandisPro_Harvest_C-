@@ -160,7 +160,7 @@ namespace LandisPro.Harvest
 
         }
 
-        protected virtual int isHarvestDone()
+        public virtual int isHarvestDone()
         {
             return 0;
         }
@@ -209,13 +209,18 @@ namespace LandisPro.Harvest
             getReport().reset();
             // length of rankedList should be equal to length of  theLength;
             foreach (int it in rankedList)
-            {
-                stand = BoundedPocketStandHarvester.pstands[it];
-                if (stand.canBeHarvested() && (BoundedPocketStandHarvester.iParamstandAdjacencyFlag == 0 || !stand.neighborsWereRecentlyHarvested()))
+                if (isHarvestDone() == 0)
                 {
-                    standCut = harvestStand(stand);
+                    stand = BoundedPocketStandHarvester.pstands[it];
+                    if (stand.canBeHarvested() && (BoundedPocketStandHarvester.iParamstandAdjacencyFlag == 0 || !stand.neighborsWereRecentlyHarvested()))
+                    {
+                        standCut = harvestStand(stand);
+                    }
                 }
-            }
+                else
+                {
+                    break;
+                }
             writeReport(BoundedPocketStandHarvester.harvestOutputFile2);
         }
     }

@@ -128,6 +128,8 @@ namespace LandisPro.Harvest
         public void reharvest()
         {
             Stand stand;
+            //Console.WriteLine(itsStands.Count);
+            //Console.ReadLine();
             for (int ii = 0; ii < itsStands.Count; ii++)
             {
                 stand = BoundedPocketStandHarvester.pstands[itsStands.IndexOf(ii)];
@@ -150,6 +152,7 @@ namespace LandisPro.Harvest
                     TmpBasalAreaS += GetBAinACell(i, j);
                 }
                 TmpBasalAreaS_avg = TmpBasalAreaS / BoundedPocketStandHarvester.pCoresites.CellSize / BoundedPocketStandHarvester.pCoresites.CellSize / stand.numberOfActiveSites() * 10000;
+
                 if (TmpBasalAreaS_avg <= Mininum_BA)
                 {
 
@@ -165,11 +168,12 @@ namespace LandisPro.Harvest
                         i = pt.y;
                         j = pt.x;
                         shareCut_ACell = GetBAinACell(i, j) / TmpBasalAreaS * BA_toCut;
-                        if (shareCut_ACell > 0.0)
+                       // Console.WriteLine(shareCut_ACell);
+                        if (shareCut_ACell > 0)
                         {
                             CutShareBAinACell_LifeSpanPercent(i, j, shareCut_ACell);
                             BoundedPocketStandHarvester.pHarvestsites[i, j].harvestType = (short)GetUserInputId();
-                            BoundedPocketStandHarvester.pHarvestsites[i, j].lastHarvest = (short)BoundedPocketStandHarvester.currentDecade;
+                            BoundedPocketStandHarvester.pHarvestsites[i, j].lastHarvest = (short)BoundedPocketStandHarvester.currentDecade;                            
                         }
                         else
                         {
@@ -177,6 +181,84 @@ namespace LandisPro.Harvest
                         }
                     }
                 }
+            }
+        }
+
+        public override int harvestStand(Stand stand)
+        {
+            SitesCut += stand.numberOfActiveSites();
+            Ldpoint pt = new Ldpoint();
+            int i;
+            int j;
+            double TmpBasalAreaS;
+            double TmpBasalAreaS_avg;
+            double BA_toCut;
+            double shareCut_ACell;
+            TmpBasalAreaS = 0;
+
+            for (StandIterator it = new StandIterator(stand); it.moreSites(); it.gotoNextSite())
+            {
+                pt = it.getCurrentSite();
+                i = pt.y;
+                j = pt.x;
+                TmpBasalAreaS += GetBAinACell(i, j);
+            }
+
+            TmpBasalAreaS_avg = TmpBasalAreaS / BoundedPocketStandHarvester.pCoresites.CellSize / BoundedPocketStandHarvester.pCoresites.CellSize / stand.numberOfActiveSites() * 10000;
+            //Console.WriteLine(TmpBasalAreaS);
+            //Console.ReadLine();
+            if (TmpBasalAreaS_avg <= Mininum_BA)
+            {
+
+            }
+            else
+            { //Cut trees here
+                //printf("Enough to Harvest\n");
+                StandsCut++;
+                itsStands.Add(stand.getId()); //Add By Qia on June 01 2012
+                BA_toCut = TmpBasalAreaS_avg - TargetVolume;
+                if (BA_toCut < 0.0)
+                {
+                    BA_toCut = TmpBasalAreaS_avg;
+                }
+                BA_toCut = BA_toCut * BoundedPocketStandHarvester.pCoresites.CellSize * BoundedPocketStandHarvester.pCoresites.CellSize * stand.numberOfActiveSites() / 10000;
+
+                for (StandIterator it = new StandIterator(stand); it.moreSites(); it.gotoNextSite())
+                {
+                    pt = it.getCurrentSite();
+                    i = pt.y;
+                    j = pt.x;
+                    shareCut_ACell = GetBAinACell(i, j) / TmpBasalAreaS * BA_toCut;
+                    if (shareCut_ACell > 0)
+                    {
+                        double shareCut = 0.0;
+                        shareCut = CutShareBAinACell_LifeSpanPercent(i, j, shareCut_ACell);
+                        BoundedPocketStandHarvester.pHarvestsites[i, j].harvestType = (short)GetUserInputId();
+                        BoundedPocketStandHarvester.pHarvestsites[i, j].lastHarvest = (short)BoundedPocketStandHarvester.currentDecade;
+                    }
+                    else
+                    {
+                        BoundedPocketStandHarvester.pHarvestsites.SetValueHarvestBA(i, j, shareCut_ACell);
+                    }
+                }
+            }
+            //return StandsCut;
+
+            return 1;
+
+
+        }
+
+        public override int isHarvestDone()
+        {
+            if (SitesCut >= itsTargetCut)
+            {
+                SitesCut = 0;
+                return 1;
+            }
+            else
+            {
+                return 0;
             }
         }
 
