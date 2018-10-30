@@ -99,9 +99,6 @@ namespace LandisPro.Harvest
             BoundedPocketStandHarvester.visitationMap.dim((uint)BoundedPocketStandHarvester.giRow, (uint)BoundedPocketStandHarvester.giCol);
             BoundedPocketStandHarvester.visitationMap.fill(0);
 
-            int filenamelength;
-            string fileextensive;
-
             BoundedPocketStandHarvester.standMap.readImg(strstandImgMapFile, BoundedPocketStandHarvester.giRow, BoundedPocketStandHarvester.giCol);
             BoundedPocketStandHarvester.managementAreaMap.readImg(strmgtAreaImgMapFile, BoundedPocketStandHarvester.giRow, BoundedPocketStandHarvester.giCol);
 
@@ -185,9 +182,9 @@ namespace LandisPro.Harvest
         public static void setUpdateFlags(int r, int c)
         {
 
-            int sid;
-            int mid;
-            int tempMid = 0;
+            uint sid;
+            uint mid;
+            uint tempMid = 0;
 
             BoundedPocketStandHarvester.pHarvestsites.BefStChg(r, c); //Add By Qia on Nov 07 2008
             BoundedPocketStandHarvester.pHarvestsites[r, c].setUpdateFlag();
@@ -195,13 +192,13 @@ namespace LandisPro.Harvest
 
             if ((sid = BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c)) > 0) //changed By Qia on Nov 4 2008
             {
-                BoundedPocketStandHarvester.pstands[sid].setUpdateFlag();
-                tempMid = BoundedPocketStandHarvester.pstands[sid].getManagementAreaId();
+                BoundedPocketStandHarvester.pstands[(int)sid].setUpdateFlag();
+                tempMid = BoundedPocketStandHarvester.pstands[(int)sid].getManagementAreaId();
             }
 
             if (sid > 0 && tempMid > 0)
             {
-                BoundedPocketStandHarvester.managementAreas[tempMid].setUpdateFlag();
+                BoundedPocketStandHarvester.managementAreas[(int)tempMid].setUpdateFlag();
             }
         }
 
@@ -240,7 +237,7 @@ namespace LandisPro.Harvest
                         //Console.WriteLine(BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade()); //=> get wrong harvestDecade!
                         if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
                         {
-                            sumCut[BoundedPocketStandHarvester.standMap.getvalue32out((uint) i, (uint) j)]++; //change by Qia on Nov 4 2008
+                            sumCut[(int)BoundedPocketStandHarvester.standMap.getvalue32out((uint) i, (uint) j)]++; //change by Qia on Nov 4 2008
                         }
                     }
                 }
@@ -254,17 +251,6 @@ namespace LandisPro.Harvest
                 }
             }
         }
-
-        //public static void outputFileheader(StreamWriter fp)
-
-        //{
-        //    fp.WriteLine("ncols  {0}", BoundedPocketStandHarvester.pCoresites.numColumns());
-        //    fp.WriteLine("nrows  {0}", BoundedPocketStandHarvester.pCoresites.numRows());
-        //    fp.WriteLine("xllcorner  {0}", BoundedPocketStandHarvester.pCoresites.XLLCorner - (float)BoundedPocketStandHarvester.pCoresites.Header[30] / 2);
-        //    fp.WriteLine("yllcorner  {0}", BoundedPocketStandHarvester.pCoresites.YLLCorner - (float)BoundedPocketStandHarvester.pCoresites.Header[30] * BoundedPocketStandHarvester.pCoresites.numRows() + (float)BoundedPocketStandHarvester.pCoresites.Header[30] / 2);
-        //    fp.WriteLine("cellsize  {0}", (float)BoundedPocketStandHarvester.pCoresites.Header[30]);
-        //    fp.WriteLine("NODATA_value  -9999");
-        //}
 
         public static void output_harvest_Dec_Type(int itr, string str_htyp, string str_htyp1, string str_dec, string str_dec1, double[] wAdfGeoTransform)
         {
@@ -459,57 +445,5 @@ namespace LandisPro.Harvest
             }
             pafScanline = null;
         }
-
-
-
-
-        //public static void output_harvest_Dec_Type(int itr, string str_htyp, string str_dec)
-        //{
-        //    StreamWriter fp;
-        //    int i;
-        //    int j;
-        //    int temp;
-
-        //    if ((fp = new StreamWriter(str_htyp)) == null)
-        //        throw new Exception("can not open output file 1");
-
-        //    outputFileheader(fp);
-
-        //    for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
-        //    {
-        //        for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
-        //        {
-        //            if (BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade() == BoundedPocketStandHarvester.currentDecade)
-        //            {
-        //                temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestType();
-        //            }
-        //            else
-        //            {
-        //                temp = 0;
-        //            }
-        //            fp.WriteLine(temp);
-        //        }
-        //    }
-        //    fp.Close();
-
-        //    if ((fp = new StreamWriter(str_dec)) == null)
-        //        throw new Exception("can not open output file 1");
-
-        //    outputFileheader(fp);
-
-        //    for (i = BoundedPocketStandHarvester.pCoresites.numRows(); i > 0; i--)
-        //    {
-        //        for (j = 1; j <= BoundedPocketStandHarvester.pCoresites.numColumns(); j++)
-        //        {
-        //            temp = BoundedPocketStandHarvester.pHarvestsites[i, j].getHarvestDecade();
-        //            fp.WriteLine();
-        //        }
-        //    }
-        //    fp.Close();
-        //    return;
-        //}
-
-
-
     }
 }

@@ -126,6 +126,7 @@ namespace LandisPro.Harvest
                 if (p.Conditions() == 1) //HarvestRegime::conditions()
                 {
                     BoundedPocketStandHarvester.currentHarvestEventId++;
+
                     if (p.IsA() == HarvestEvent.EVENT_Volume_BA_THINING) //HarvestRegime::isA()
                     {
                         p.Harvest(); //HarvestRegime::harvest()

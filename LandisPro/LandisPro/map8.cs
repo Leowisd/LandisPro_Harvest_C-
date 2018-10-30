@@ -552,7 +552,7 @@ namespace LandisPro
 
         private byte flag16or32;
 
-        private ushort[] data;        //Pointer to data array.
+        private uint[] data;        //Pointer to data array.
         private uint[] data32;
 
         private uint largeCell;    //Largest cell value. 
@@ -659,7 +659,7 @@ namespace LandisPro
 
 
         //Returns a single map element.
-        public ushort this[uint r, uint c]
+        public uint this[uint r, uint c]
         {
             get
             {
@@ -694,7 +694,7 @@ namespace LandisPro
 
             flag16or32 = 16;
 
-            data = new ushort[numCols * numRows];
+            data = new uint[numCols * numRows];
         }
 
 
@@ -744,20 +744,20 @@ namespace LandisPro
                 {
                     int mapValue = (int)pafScanline[(yDim - i) * xDim + j - 1];//*
 
-                    Console.Write("{0} ", mapValue);
+                    //Console.Write("{0} ", mapValue);
 
                     // %%# Changed 13
-                    this[i, j] = (ushort)mapValue;
+                    this[i, j] = (uint)mapValue;
 
                     if (numread > 0)
                     {
-                        if ((ushort)mapValue > largeCell)
-                            largeCell = (ushort)mapValue;
+                        if ((uint)mapValue > largeCell)
+                            largeCell = (uint)mapValue;
                     }
 
                 }
 
-                Console.WriteLine();
+                //Console.WriteLine();
 
             }
 
@@ -884,7 +884,7 @@ namespace LandisPro
         }
 
 
-        public int getvalue32out(uint r, uint c)
+        public uint getvalue32out(uint r, uint c)
         {
             if (r <= 0 || r > numRows || c <= 0 || c > numCols)
                 throw new Exception("MAP8:: illegal map coordinates");
@@ -899,7 +899,7 @@ namespace LandisPro
             {
                 Debug.Assert(flag16or32 == 32);
 
-                return (int)data32[x];
+                return data32[x];
             }
         }
 

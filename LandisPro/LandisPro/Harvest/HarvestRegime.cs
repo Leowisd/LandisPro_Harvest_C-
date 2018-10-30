@@ -203,18 +203,20 @@ namespace LandisPro.Harvest
         public override void Harvest()
         {
             List<int> rankedList = new List<int>();
-            Stand stand;
+            Stand stand = new Stand();
             int standCut;
             itsRankAlgorithm.rankStands(ref rankedList);
             getReport().reset();
             // length of rankedList should be equal to length of  theLength;
+
             foreach (int it in rankedList)
                 if (isHarvestDone() == 0)
                 {
-                    stand = BoundedPocketStandHarvester.pstands[it];
+                    stand.Copy(BoundedPocketStandHarvester.pstands[it]);
+
                     if (stand.canBeHarvested() && (BoundedPocketStandHarvester.iParamstandAdjacencyFlag == 0 || !stand.neighborsWereRecentlyHarvested()))
                     {
-                        standCut = harvestStand(stand);
+                        standCut = harvestStand(BoundedPocketStandHarvester.pstands[it]);
                     }
                 }
                 else

@@ -127,12 +127,12 @@ namespace LandisPro.Harvest
 
         public void reharvest()
         {
-            Stand stand;
+            Stand stand = new Stand();
             //Console.WriteLine(itsStands.Count);
             //Console.ReadLine();
             for (int ii = 0; ii < itsStands.Count; ii++)
             {
-                stand = BoundedPocketStandHarvester.pstands[itsStands.IndexOf(ii)];
+                stand.Copy(BoundedPocketStandHarvester.pstands[itsStands[ii]]);
                 SitesCut += stand.numberOfActiveSites();
                 Ldpoint pt = new Ldpoint();
                 int m;
@@ -205,8 +205,7 @@ namespace LandisPro.Harvest
             }
 
             TmpBasalAreaS_avg = TmpBasalAreaS / BoundedPocketStandHarvester.pCoresites.CellSize / BoundedPocketStandHarvester.pCoresites.CellSize / stand.numberOfActiveSites() * 10000;
-            //Console.WriteLine(TmpBasalAreaS);
-            //Console.ReadLine();
+
             if (TmpBasalAreaS_avg <= Mininum_BA)
             {
 

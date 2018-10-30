@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace LandisPro.Harvest
     class Stand
     {
         public int itsId;
-        public int itsManagementAreaId;
+        public uint itsManagementAreaId;
         public int itsTotalSites;
         public int itsActiveSites;
         private int itsHarvestableSites;
@@ -38,7 +39,29 @@ namespace LandisPro.Harvest
             itsMaxPoint= new Ldpoint();
         }
 
-        public int getManagementAreaId()
+        public void Copy(Stand s)
+        {
+            itsId = s.itsId;
+            itsManagementAreaId = s.itsManagementAreaId;
+            itsTotalSites = s.itsTotalSites;
+            itsActiveSites = s.itsActiveSites;
+            itsHarvestableSites = s.itsHarvestableSites;
+            itsMeanAge = s.itsMeanAge;
+            itsUpdateFlag = s.itsUpdateFlag;
+            itsRecentHarvestFlag = s.itsRecentHarvestFlag;
+            itsRank = s.itsRank;
+            itsReserveFlag = s.itsReserveFlag;
+            itsMinPoint.x = s.itsMinPoint.x;
+            itsMinPoint.y = s.itsMinPoint.y;
+            itsMaxPoint.x = s.itsMaxPoint.x;
+            itsMaxPoint.y = s.itsMaxPoint.y;
+            for (int i = 0; i<s.itsNeighborList.Count; i++)
+            {
+                itsNeighborList[i] = s.itsNeighborList[i];
+            }
+        }
+
+        public uint getManagementAreaId()
         {
             return itsManagementAreaId;
         }
@@ -64,9 +87,9 @@ namespace LandisPro.Harvest
             return itsRecentHarvestFlag;
         }
 
-        public int isNeighbor(int r, int c)
+        public uint isNeighbor(int r, int c)
         {
-            int nid;
+            uint nid;
             if (GlobalFunctions.inBounds(r, c) == 1)
             {
                 return 0;
@@ -80,11 +103,11 @@ namespace LandisPro.Harvest
                 return nid;
             }
         }
-        public void addNeighbor(int id)
+        public void addNeighbor(uint id)
         {
-            if (!itsNeighborList.Contains(id))
+            if (!itsNeighborList.Contains((int)id))
             {
-                itsNeighborList.Add(id);
+                itsNeighborList.Add((int)id);
             }
         }
 
@@ -121,8 +144,8 @@ namespace LandisPro.Harvest
         public bool inStand(int r, int c)
         {
 
-            int sid = 0;
-            int tempMid = 0;
+            uint sid = 0;
+            uint tempMid = 0;
 
             if (BoundedPocketStandHarvester.standMap.inMap((uint)r, (uint)c) == false)
             {
@@ -132,7 +155,7 @@ namespace LandisPro.Harvest
             sid = BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c); //change by Qia on Nov 4 2008
             if (sid > 0)
             {
-                tempMid = BoundedPocketStandHarvester.pstands[sid].getManagementAreaId();
+                tempMid = BoundedPocketStandHarvester.pstands[(int)sid].getManagementAreaId();
             }
             Boolean result = (BoundedPocketStandHarvester.standMap.inMap((uint)r, (uint)c) && BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c) == itsId && tempMid == itsManagementAreaId); //change by Qia on Nov 4 2008
 

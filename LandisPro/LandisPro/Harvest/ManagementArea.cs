@@ -34,12 +34,12 @@ namespace LandisPro.Harvest
 
         public int inManagementArea(int r, int c)
         {
-            int tempMid = 0;
-            int sid;
+            uint tempMid = 0;
+            uint sid;
 
             sid = BoundedPocketStandHarvester.standMap.getvalue32out((uint) r, (uint) c);
             if (sid > 0)
-                tempMid = BoundedPocketStandHarvester.pstands[sid].getManagementAreaId();
+                tempMid = BoundedPocketStandHarvester.pstands[(int)sid].getManagementAreaId();
             int result;
             if (BoundedPocketStandHarvester.managementAreaMap.inMap((uint) r, (uint) c) && tempMid == itsId)
                 result = 1;
@@ -74,10 +74,10 @@ namespace LandisPro.Harvest
                 itsUpdateFlag = 0;
         }
 
-        public void addStand(int id)
+        public void addStand(uint id)
         {
-            if (!itsStandList.Contains(id))
-                itsStandList.Add(id);
+            if (!itsStandList.Contains((int)id))
+                itsStandList.Add((int)id);
         }
     }
 }

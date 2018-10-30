@@ -44,7 +44,7 @@ namespace LandisPro.Harvest
             int i;
             int r;
             int c;
-            int id;
+            uint id;
             int snr;
             int snc;
 
@@ -72,7 +72,7 @@ namespace LandisPro.Harvest
                     id = BoundedPocketStandHarvester.managementAreaMap[(uint)r, (uint)c];
                     if (id > 0 && BoundedPocketStandHarvester.standMap.getvalue32out((uint)r, (uint)c) > 0)
                     {
-                        managementAreas[id - 1].itsActiveSites++;
+                        managementAreas[id - 1].itsTotalSites++;
                         if (BoundedPocketStandHarvester.pCoresites.locateLanduPt(r, c).active())
                             managementAreas[id - 1].itsActiveSites++;
                         managementAreas[id - 1].addStand(BoundedPocketStandHarvester.standMap.getvalue32out((uint)r,(uint)c));

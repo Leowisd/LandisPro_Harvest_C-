@@ -33,7 +33,8 @@ namespace LandisPro.Harvest
 
         public void filter(ref IntArray theStandArray, ref IntArray theAgeArray, ref int theLength)
         {
-            Stand stand;
+
+            Stand stand = new Stand();
 
             int theNewLength = 0;
 
@@ -42,7 +43,7 @@ namespace LandisPro.Harvest
             for (int i = 0; i < it.Count; i++)
             {
                 int id = it[i];
-                stand = BoundedPocketStandHarvester.pstands[id];
+                stand.Copy(BoundedPocketStandHarvester.pstands[id]);
                 if (stand.canBeHarvested() && stand.getAge() >= itsRotationAge)
                 {
                     theNewLength++;

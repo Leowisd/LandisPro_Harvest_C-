@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,12 +36,12 @@ namespace LandisPro.Harvest
             int i;
             int r;
             int c;
-            int id;
-            int nid;
+            uint id;
+            uint nid;
             int snr;
             int snc;
-            int mid;
-            int currMid;
+            uint mid;
+            uint currMid;
 
             Ldpoint pmin = new Ldpoint();
             Ldpoint pmax = new Ldpoint();
@@ -96,7 +97,7 @@ namespace LandisPro.Harvest
                         }
                         stands[id - 1].itsMinPoint = pmin;
                         stands[id - 1].itsMaxPoint = pmax;
-
+                        //Console.WriteLine("{0}:{1}, {2}, {3}, {4}",id, pmin.x, pmin.y, pmax.x, pmax.y);
                         mid = BoundedPocketStandHarvester.managementAreaMap[(uint)r, (uint)c];
                         if (mid <= 0)
                         {
