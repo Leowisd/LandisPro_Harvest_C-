@@ -241,7 +241,6 @@ namespace LandisPro.Harvest
                         }
                     }
                 }
-
                 for (i = 1; i <= BoundedPocketStandHarvester.pstands.number(); i++)
                 {
                     if (sumCut[i] > 0)

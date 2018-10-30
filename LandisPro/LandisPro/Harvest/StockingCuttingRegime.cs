@@ -127,10 +127,10 @@ namespace LandisPro.Harvest
 
         public void reharvest()
         {
-            Stand stand;
+            Stand stand = new Stand();
             for (int ii = 0; ii < itsStands.Count; ii++)
             {
-                stand = BoundedPocketStandHarvester.pstands[itsStands.IndexOf(ii)];
+                stand.Copy(BoundedPocketStandHarvester.pstands[itsStands[ii]]);
                 SitesCut += stand.numberOfActiveSites();
                 double stocking_debug = computeStandStocking(stand);
                 Ldpoint pt = new Ldpoint();

@@ -186,6 +186,7 @@ namespace LandisPro.Harvest
 
         public override int harvestStand(Stand stand)
         {
+
             SitesCut += stand.numberOfActiveSites();
             Ldpoint pt = new Ldpoint();
             int i;
@@ -203,7 +204,6 @@ namespace LandisPro.Harvest
                 j = pt.x;
                 TmpBasalAreaS += GetBAinACell(i, j);
             }
-
             TmpBasalAreaS_avg = TmpBasalAreaS / BoundedPocketStandHarvester.pCoresites.CellSize / BoundedPocketStandHarvester.pCoresites.CellSize / stand.numberOfActiveSites() * 10000;
 
             if (TmpBasalAreaS_avg <= Mininum_BA)

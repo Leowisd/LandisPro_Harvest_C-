@@ -8,12 +8,13 @@ namespace LandisPro.Harvest
 {
     class StandIterator
     {
-        public Ldpoint p;
-        public Stand stand;
+        public Ldpoint p = new Ldpoint();
+        public Stand stand = new Stand();
         public StandIterator(Stand s)
         {
-            stand = s;
-            p = s.itsMinPoint;
+            stand.Copy(s);
+            p.x = s.itsMinPoint.x;
+            p.y = s.itsMinPoint.y;
             if (s.itsMinPoint.x <= 0 && s.itsMinPoint.y <= 0)
                 throw new Exception("Invaild stand point");
             while (moreSites() && !stand.inStand(p.y, p.x))

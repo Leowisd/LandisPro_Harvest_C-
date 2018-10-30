@@ -6,3 +6,11 @@ D:\LANDIS_Yifu\LandisPro_Harvest_C#\LandisPro\LandisPro\obj\x64\Debug\LandisPro.
 D:\LANDIS_Yifu\LandisPro_Harvest_C#\LandisPro\LandisPro\obj\x64\Debug\LandisPro.exe
 D:\LANDIS_Yifu\LandisPro_Harvest_C#\LandisPro\LandisPro\obj\x64\Debug\LandisPro.pdb
 D:\LANDIS_Yifu\LandisPro_Harvest_C#\LandisPro\LandisPro\obj\x64\Debug\LandisPro.csproj.CopyComplete
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\bin\x64\Debug\LandisPro.exe.config
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\bin\x64\Debug\LandisPro.exe
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\bin\x64\Debug\LandisPro.pdb
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\obj\x64\Debug\LandisPro.csprojAssemblyReference.cache
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\obj\x64\Debug\LandisPro.csproj.CoreCompileInputs.cache
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\obj\x64\Debug\LandisPro.csproj.CopyComplete
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\obj\x64\Debug\LandisPro.exe
+C:\Users\YveYa\Desktop\WorkPlace\LandisPro_Harvest_C-\LandisPro\LandisPro\obj\x64\Debug\LandisPro.pdb

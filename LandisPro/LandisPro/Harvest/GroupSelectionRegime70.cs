@@ -315,7 +315,7 @@ namespace LandisPro.Harvest
 
         public void reharvest()
         {
-            Stand stand;
+            Stand stand = new Stand();
             MultiplePocketStandHarvester theStandHarvester;
             int standCut;
             SiteHarvester theSiteHarvester = new SiteHarvester(GetUserInputId(), getRemovalMask(), getReport(), getDuration());
@@ -324,7 +324,7 @@ namespace LandisPro.Harvest
             for (int i = 0; i < itsStands.Count; i++)
             {
                 //        stand = stands(it.current());  Modified by Vera
-                stand = BoundedPocketStandHarvester.pstands[itsStands.IndexOf(i)];
+                stand.Copy(BoundedPocketStandHarvester.pstands[itsStands[i]]);
                 theStandHarvester = new MultiplePocketStandHarvester(stand, itsStandProportion, itsMeanGroupSize, itsStandardDeviation, theSiteHarvester);
                 standCut = theStandHarvester.Harvest();
                 theStandHarvester = null;

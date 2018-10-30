@@ -213,7 +213,6 @@ namespace LandisPro.Harvest
                 if (isHarvestDone() == 0)
                 {
                     stand.Copy(BoundedPocketStandHarvester.pstands[it]);
-
                     if (stand.canBeHarvested() && (BoundedPocketStandHarvester.iParamstandAdjacencyFlag == 0 || !stand.neighborsWereRecentlyHarvested()))
                     {
                         standCut = harvestStand(BoundedPocketStandHarvester.pstands[it]);
@@ -223,6 +222,7 @@ namespace LandisPro.Harvest
                 {
                     break;
                 }
+
             writeReport(BoundedPocketStandHarvester.harvestOutputFile2);
         }
     }
