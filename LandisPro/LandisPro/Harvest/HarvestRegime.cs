@@ -84,11 +84,11 @@ namespace LandisPro.Harvest
             string instring;
             string[] sarray;
 
-            instring = inFile.ReadLine();
+            if ((instring = inFile.ReadLine()) == null)
+                throw new Exception("Error reading label from harvest section.");
             sarray = instring.Split('#');
             id = int.Parse(sarray[0]);
-            if (id != 1)
-                throw new Exception("Error reading label from harvest section.");
+
             SetLabel(label);
             SetUserInputId(id);
 

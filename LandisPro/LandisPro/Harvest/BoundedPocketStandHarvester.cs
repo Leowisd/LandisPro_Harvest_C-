@@ -37,7 +37,7 @@ namespace LandisPro.Harvest
 
         private int itsTargetCut;
         private Ldpoint itsStartPoint;
-        private List<Ldpoint> itsNeighborList;
+        private List<Ldpoint> itsNeighborList = new List<Ldpoint>();
 
         public BoundedPocketStandHarvester(int targetCut, Ldpoint startPoint, SiteHarvester siteHarvester, HarvestPath path)
         {
