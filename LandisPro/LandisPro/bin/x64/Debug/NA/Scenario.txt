@@ -1,0 +1,22 @@
+Landis Scenario.txt
+
+Landis version:		Pro 1.0
+Output dir:		.\NA
+specAttrFile:		.\NA\SpeciesAttributes.dat
+landUnitFile:		.\NA\landtype.dat
+siteInFile:		.\NA\
+
+MAIN PARAMETERS:----------------------------------------
+Random:			NOT repeatable (0)
+numberOfIterations:	10
+Map size:		Row: 20 x Col: 20
+
+
+DLLs----------------------------------------
+Wind ..............is turned on
+
+BDA ....................  off
+Harvest ..................off
+Fuel .................... off
+Fuel management ..........off
+Fire .................... off

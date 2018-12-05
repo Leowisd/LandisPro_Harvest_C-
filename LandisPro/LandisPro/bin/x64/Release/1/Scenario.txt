@@ -8,7 +8,7 @@ siteInFile:		.\1\
 
 MAIN PARAMETERS:----------------------------------------
 Random:			NOT repeatable (0)
-numberOfIterations:	5
+numberOfIterations:	4
 Map size:		Row: 20 x Col: 20
 
 

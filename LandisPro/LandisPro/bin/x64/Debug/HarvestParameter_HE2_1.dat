@@ -1,0 +1,18 @@
+2               #Harvest Regime ID - GROUP SELECTION#
+2               #Harvest Regime Label#
+1               #Management Area#
+2               #Rotation Age#
+1               #Rank alrogithm#
+10              #Entry Year#
+200             #Repeat Interval#
+0.2             #Target management area proportion#
+4               #Stand proportion denominator#
+6               #Mean group size#
+1               #Group size standard deviation#
+
+#List species below in same order as species attribute file and assign priority rank for removal#
+#flag for harvest, flag for planting, number of trees planted#
+1 0 0 #ShortleafPine#
+1 0 0 #SlashPine#
+1 0 0 #LongleafPine#
+0 #Number of reentry events#

@@ -1,0 +1,22 @@
+Landis Scenario.txt
+
+Landis version:		Pro 1.0
+Output dir:		.\HE3_Renentry
+specAttrFile:		.\HE3_Renentry\SpeciesAttributes.dat
+landUnitFile:		.\HE3_Renentry\landtype.dat
+siteInFile:		.\HE3_Renentry\
+
+MAIN PARAMETERS:----------------------------------------
+Random:			NOT repeatable (0)
+numberOfIterations:	1
+Map size:		Row: 20 x Col: 20
+
+
+DLLs----------------------------------------
+Wind ..............is turned on
+Harvest ...........is turned on
+
+BDA ....................  off
+Fuel .................... off
+Fuel management ..........off
+Fire .................... off
