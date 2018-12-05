@@ -1,4 +1,4 @@
-Initilization took: 00:00:02.7352735 seconds
+Initilization took: 00:00:02.6932693 seconds
 
 Processing succession at Year: 1:
 
@@ -19,8 +19,8 @@ Processing succession at Year: 8:
 Processing succession at Year: 9:
 
 Processing succession at Year: 10:
-Processing harvest: 00:00:00.4420442 seconds
-Processing succession: 00:00:00.0290029 seconds
+Processing harvest: 00:00:00.4250425 seconds
+Processing succession: 00:00:00.0310031 seconds
 
 Processing succession at Year: 11:
 
@@ -41,8 +41,8 @@ Processing succession at Year: 18:
 Processing succession at Year: 19:
 
 Processing succession at Year: 20:
-Processing harvest: 00:00:00.4340434 seconds
-Processing succession: 00:00:00.0170017 seconds
+Processing harvest: 00:00:00.3870387 seconds
+Processing succession: 00:00:00.0200020 seconds
 
 Processing succession at Year: 21:
 
@@ -63,8 +63,8 @@ Processing succession at Year: 28:
 Processing succession at Year: 29:
 
 Processing succession at Year: 30:
-Processing harvest: 00:00:00.3760376 seconds
-Processing succession: 00:00:00.0160016 seconds
+Processing harvest: 00:00:00.3980398 seconds
+Processing succession: 00:00:00.0190019 seconds
 
 Processing succession at Year: 31:
 
@@ -85,27 +85,5 @@ Processing succession at Year: 38:
 Processing succession at Year: 39:
 
 Processing succession at Year: 40:
-Processing harvest: 00:00:00.3890389 seconds
-Processing succession: 00:00:00.0160016 seconds
-
-Processing succession at Year: 41:
-
-Processing succession at Year: 42:
-
-Processing succession at Year: 43:
-
-Processing succession at Year: 44:
-
-Processing succession at Year: 45:
-
-Processing succession at Year: 46:
-
-Processing succession at Year: 47:
-
-Processing succession at Year: 48:
-
-Processing succession at Year: 49:
-
-Processing succession at Year: 50:
-Processing harvest: 00:00:00.3770377 seconds
-Processing succession: 00:00:00.0170017 seconds
+Processing harvest: 00:00:00.3790379 seconds
+Processing succession: 00:00:00.0180018 seconds
