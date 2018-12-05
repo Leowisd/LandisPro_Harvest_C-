@@ -296,9 +296,14 @@ namespace LandisPro.Harvest
             double TmpStockingS = 0;
             double tempStocking;
             double StockingcutSpecie;
+            double tempBA;
+            double singleTreeBA;
             int treeNum_save;
             int treeNum_original;
             double Stocking_actual_cut_cell = 0;
+
+            Landunit l;
+            l = BoundedPocketStandHarvester.pCoresites.locateLanduPt(i, j);
 
             for (k = 0; k < BoundedPocketStandHarvester.pCoresites.specNum; k++)
             {
@@ -368,7 +373,11 @@ namespace LandisPro.Harvest
                                     flag_cut_anyspecie = 1;
                                     if (TmpStockingS < target)
                                     {
+
+                                        singleTreeBA = BoundedPocketStandHarvester.pCoresites.GetGrowthRates(speciesOrder[k],m,l.ltID) * BoundedPocketStandHarvester.pCoresites.GetGrowthRates(speciesOrder[k],m,l.ltID) / 4 * 3.1415926 / 10000;
+                                        tempBA = singleTreeBA * BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).getTreeNum(m, speciesOrder[k]);
                                         tempStocking = GetStockinginACell_spec_age(i, j, speciesOrder[k], m);
+
                                         if (tempStocking <= target - TmpStockingS)
                                         {
                                             treeNum_original = BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).getTreeNum(m, speciesOrder[k]);
@@ -379,6 +388,8 @@ namespace LandisPro.Harvest
                                             }
                                             BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], 0);
                                             TmpStockingS += tempStocking;
+                                            BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+                                            BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
                                         }
                                         else
                                         {
@@ -392,6 +403,12 @@ namespace LandisPro.Harvest
                                                 }
                                                 BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], treeNum_save);
                                                 TmpStockingS += (target - TmpStockingS);
+
+                                                tempBA = tempBA - (treeNum_save * singleTreeBA);
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
+
                                             }
                                             else
                                             {
@@ -402,6 +419,11 @@ namespace LandisPro.Harvest
                                                 }
                                                 BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], 0);
                                                 TmpStockingS += tempStocking;
+
+                                                tempBA = tempBA - (treeNum_save * singleTreeBA);
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
                                             }
                                         }
                                     }
@@ -443,6 +465,9 @@ namespace LandisPro.Harvest
                                     flag_cut_anyspecie = 1;
                                     if (TmpStockingS < target)
                                     {
+                                        singleTreeBA = BoundedPocketStandHarvester.pCoresites.GetGrowthRates(speciesOrder[k], m, l.ltID) * BoundedPocketStandHarvester.pCoresites.GetGrowthRates(speciesOrder[k], m, l.ltID) / 4 * 3.1415926 / 10000;
+                                        tempBA = singleTreeBA * BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).getTreeNum(m, speciesOrder[k]);
+
                                         tempStocking = GetStockinginACell_spec_age(i, j, speciesOrder[k], m);
                                         if (tempStocking <= target - TmpStockingS)
                                         {
@@ -453,6 +478,11 @@ namespace LandisPro.Harvest
                                             }
                                             BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], 0);
                                             TmpStockingS += tempStocking;
+
+                                            BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+
+                                            BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
+
                                         }
                                         else
                                         {
@@ -466,6 +496,12 @@ namespace LandisPro.Harvest
                                                 }
                                                 BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], treeNum_save);
                                                 TmpStockingS += (target - TmpStockingS);
+
+                                                tempBA = tempBA - (treeNum_save * singleTreeBA);
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
+
                                             }
                                             else
                                             {
@@ -476,6 +512,12 @@ namespace LandisPro.Harvest
                                                 }
                                                 BoundedPocketStandHarvester.pCoresites[i, j].SpecieIndex(speciesOrder[k]).setTreeNum(m, speciesOrder[k], 0);
                                                 TmpStockingS += tempStocking;
+
+                                                tempBA = tempBA - (treeNum_save * singleTreeBA);
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA_spec(i, j, speciesOrder[k] - 1, tempBA);
+
+                                                BoundedPocketStandHarvester.pHarvestsites.AddMoreValueHarvestBA(i, j, tempBA);
+
                                             }
                                         }
                                     }
